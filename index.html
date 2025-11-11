@@ -96,7 +96,6 @@
             const isExpanded = navList.style.display === 'flex';
             navList.style.display = isExpanded ? 'none' : 'flex';
 
-            // Change l'icône (optional, but good practice)
             const icon = menuToggle.querySelector('i');
             if (isExpanded) {
                 icon.classList.remove('fa-times'); // 'x'
@@ -107,7 +106,6 @@
             }
         });
 
-        // Ferme le menu si un lien est cliqué (pour l'expérience mobile)
         navList.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth < 768) {
