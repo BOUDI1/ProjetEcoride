@@ -1,2 +1,3 @@
 # Ecoride 
-le projet est une application web de covoiturage nommée "EcoRide", qui vise à réduire l'impact environnemental des déplacements en encourageant le covoiturage automobile.
+**EcoRide est une application web de covoiturage axée sur l'écologie, permettant de mettre en relation des conducteurs et des passagers pour des trajets domicile-travail et occasionnels.**
+Ce projet a été réalisé dans le cadre de la présentation de mon projet web pour la formation Développeur-web Front End dispensée par l'organisme de formation Studi. Il met en œuvre une stack technique complète, incluant une architecture front-end, back-end, et deux bases de données (relationnelle et NoSQL).
