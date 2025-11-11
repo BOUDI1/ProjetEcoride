@@ -47,3 +47,25 @@ a {
 .btn-primary:hover {
     background-color: #388E3C;
 }
+/* Header Menu Mobile */
+
+.header {
+    background-color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.logo a {
+    color: var(--color-text);
+}
