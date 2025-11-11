@@ -69,3 +69,34 @@ a {
 .logo a {
     color: var(--color-text);
 }
+/* Navigation Mobile */
+.nav-list {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-white);
+    z-index: 10;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-list li {
+    list-style: none;
+    text-align: center;
+}
+
+.nav-list a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.nav-list a:hover,
+.nav-list a.active {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+}
