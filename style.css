@@ -31,3 +31,19 @@ a {
     max-width: 1200px;
     margin: 0 auto;
 }
+/* Bouton Primaire */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #388E3C;
+}
