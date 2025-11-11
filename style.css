@@ -1,0 +1,18 @@
+:root {
+    /* Couleurs */
+    --color-primary: #4CAF50;    /* Vert Écologique */
+    --color-secondary: #8BC34A;  /* Vert Clair  */
+    --color-background: #F5F5F5; /* Fond clair */
+    --color-text: #212121;      /* Texte principal */
+    --color-light-text: #666;   /* Texte secondaire */
+    --color-white: #FFFFFF;
+
+    /* Typographie */
+    --font-family-main: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
