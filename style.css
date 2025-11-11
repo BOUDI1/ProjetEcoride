@@ -100,3 +100,10 @@ a {
     background-color: var(--color-background);
     color: var(--color-primary);
 }
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--color-text);
+    cursor: pointer;
+}
