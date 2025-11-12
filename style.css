@@ -31,6 +31,15 @@ a {
     max-width: 1200px;
     margin: 0 auto;
 }
+
+/* Style pour rendre l'image responsive */
+.responsive-image {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 5px; 
+}
+
 /* Bouton Primaire */
 .btn-primary {
     background-color: var(--color-primary);
@@ -143,4 +152,60 @@ a {
 
 .search-bar input {
     color: var(--color-text);
+}
+/* Présentation et Features (Mobile) */
+
+.presentation {
+    padding: 40px 0;
+}
+
+.presentation h3 {
+    text-align: center;
+    font-size: 24px;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+}
+
+.content-row {
+    margin-bottom: 30px;
+}
+
+.text-mission {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.image-placeholder {
+    height: 150px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-style: italic;
+    color: var(--color-light-text);
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feature-card {
+    background-color: var(--color-white);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.icon-large {
+    font-size: 36px;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.feature-card h4 {
+    margin-bottom: 5px;
 }
