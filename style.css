@@ -176,14 +176,9 @@ a {
 }
 
 .image-placeholder {
-    height: 150px;
-    background-color: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 150px; 
     border-radius: 5px;
-    font-style: italic;
-    color: var(--color-light-text);
+    overflow: hidden; 
 }
 
 .features-row {
