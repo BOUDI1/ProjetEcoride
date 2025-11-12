@@ -204,3 +204,26 @@ a {
 .feature-card h4 {
     margin-bottom: 5px;
 }
+/* Footer (Mobile) */
+
+.footer {
+    background-color: var(--color-text);
+    color: var(--color-white);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-links {
+    margin-top: 10px;
+}
+
+.footer-links a,
+.footer-links p {
+    color: var(--color-white);
+    display: inline;
+}
+
+.footer-links span {
+    margin: 0 10px;
+}
