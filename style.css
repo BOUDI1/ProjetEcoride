@@ -227,3 +227,88 @@ a {
 .footer-links span {
     margin: 0 10px;
 }
+/* Media Query: Adaptation au Desktop (à partir de 768px) */
+@media (min-width: 768px){
+    /* Header Desktop */
+    .menu-toggle {
+        display: none; /* Cacher le bouton menu hamburger */
+    }
+    
+    .nav-list {
+        display: flex; /* Afficher le menu en ligne */
+        position: static;
+        flex-direction: row;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .nav-list li {
+        margin-left: 20px;
+    }
+
+    .nav-list a {
+        padding: 5px 10px;
+        background-color: transparent;
+    }
+
+    /* Hero Desktop */
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero h2 {
+        font-size: 40px;
+    }
+/* autres styles desktop  */
+    
+    .image-placeholder {
+        flex: 1;
+        height: 250px; /* Augmenter la hauteur sur desktop */
+    }
+/* Search Bar Desktop */
+    .search-bar form {
+        flex-direction: row; /* Alignement horizontal */
+        max-width: 900px;
+        margin: 30px auto 0;
+    }
+    
+    .search-bar input,
+    .search-bar button {
+        flex: 1; /* Distribue l'espace équitablement */
+    }
+
+    .search-bar button {
+        flex: 0 0 150px; /* Taille fixe pour le bouton */
+    }
+    /* Presentation Desktop */
+    .content-row {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .text-mission {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .features-row {
+        flex-direction: row; /* Alignement horizontal */
+        justify-content: space-between;
+    }
+    
+    .feature-card {
+        flex: 1;
+        max-width: 30%;
+    }
+    /* Footer Desktop */
+    .footer .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .footer-links {
+        margin-top: 0;
+    }
+}
