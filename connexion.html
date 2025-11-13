@@ -58,7 +58,21 @@
             </div>
         </div>
     </footer>
-    
+    <script>
+        // JS pour montrer une alerte lors de la soumission du formulaire
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Tentative de connexion en cours...");
+        });
+        
+        // JS pour simuler l'action d'inscription
+        document.querySelector('.create-account-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("Redirection vers la page d'inscription (US 7) - Pensez au mot de passe sécurisé !");
+        });
+        
+        // Inclure ici le code JS pour le menu hamburger (copié depuis index.html)
+    </script>
     
 </body>
 </html>
