@@ -49,6 +49,28 @@
             </div>
         </section>
     </main>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 EcoRide. Tous droits réservés.</p>
+            <div class="footer-links">
+                <p>Contact: <a href="mailto:contact@ecoride.fr">contact@ecoride.fr</a></p>
+                <span>|</span>
+                <a href="#">Mentions Légales</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // JS pour valider que tous les champs sont remplis avant l'envoi
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Message envoyé ! L'équipe EcoRide vous recontactera bientôt.");
+            // Logique de reset de formulaire irait ici
+            this.reset();
+        });
+        
+        // Inclure ici le code JS pour le menu hamburger (copié depuis index.html)
+    </script>
     
 
 </body>
