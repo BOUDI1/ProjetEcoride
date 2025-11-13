@@ -23,6 +23,32 @@
             </nav>
         </div>
     </header>
-    
+   <main class="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h2>Contactez l'équipe EcoRide</h2>
+                <p>Nous sommes là pour répondre à vos questions sur les trajets et le covoiturage écologique.</p>
+            </div>
+        </section>
+
+        <section class="section-content form-container">
+            <div class="feature-card form-box">
+                <form id="contactForm">
+                    <input type="text" placeholder="Votre Nom" required aria-label="Votre nom">
+                    <input type="email" placeholder="Votre Email" required aria-label="Votre email">
+                    <select aria-label="Sujet du message">
+                        <option value="">Sélectionnez un sujet</option>
+                        <option value="reservation">Réservation/Annulation</option>
+                        <option value="credits">Crédits et Paiements</option>
+                        <option value="general">Question Générale</option>
+                    </select>
+                    <textarea placeholder="Votre message..." rows="5" required aria-label="Votre message"></textarea>
+                    <button type="submit" class="btn-primary">Envoyer le Message</button>
+                </form>
+                <p class="info-contact">Ou par mail direct : contact@ecoride.fr</p>
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
