@@ -85,13 +85,13 @@ a {
 
 .logo a {
     color: var(--color-text);
-}
+}  
 /* Navigation Mobile */
 .nav-list {
-    display: none;
+    display: none; /* <-- SUPPRIMEZ OU COMMENTEZ CETTE LIGNE */
     flex-direction: column;
     position: absolute;
-    top: 65px;
+    top: 65px; /* Sous le header */
     left: 0;
     width: 100%;
     background-color: var(--color-white);
@@ -123,6 +123,9 @@ a {
     font-size: 24px;
     color: var(--color-text);
     cursor: pointer;
+}
+.nav-list.is-open {
+    display: flex; /* Le JS ajoute cette classe pour afficher le menu */
 }
 /* Hero et Barre de Recherche (Mobile) */
 

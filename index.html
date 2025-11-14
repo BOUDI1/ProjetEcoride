@@ -87,36 +87,6 @@
             </div>
         </div>
     </footer>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navList = document.querySelector('.nav-list');
-
-        menuToggle.addEventListener('click', () => {
-            // Affiche/Masque la liste de navigation
-            const isExpanded = navList.style.display === 'flex';
-            navList.style.display = isExpanded ? 'none' : 'flex';
-
-            const icon = menuToggle.querySelector('i');
-            if (isExpanded) {
-                icon.classList.remove('fa-times'); // 'x'
-                icon.classList.add('fa-bars');    // Hamburger
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            }
-        });
-
-        navList.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    navList.style.display = 'none';
-                    menuToggle.querySelector('i').classList.remove('fa-times');
-                    menuToggle.querySelector('i').classList.add('fa-bars');
-                }
-            });
-        });
-    });
-</script>
+    <script src="main.js"></script>
 </body>
 </html>
