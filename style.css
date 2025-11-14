@@ -21,6 +21,14 @@ body {
     background-color: var(--color-background);
     color: var(--color-text);
     line-height: 1.6;
+    /* Styles pour rendre la mise en page 'sticky footer' */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garantit que le corps prend au moins la hauteur de la vue */
+}
+
+main {
+    flex-grow: 1; /* Permet au contenu principal de prendre tout l'espace restant */
 }
 a {
     text-decoration: none;
@@ -233,6 +241,7 @@ a {
     .menu-toggle {
         display: none; /* Cacher le bouton menu hamburger */
     }
+
     
     .nav-list {
         display: flex; /* Afficher le menu en ligne */
@@ -301,7 +310,7 @@ a {
         flex: 1;
         max-width: 30%;
     }
-    /* Footer Desktop */
+     /* Footer Desktop */
     .footer .container {
         display: flex;
         justify-content: space-between;
@@ -312,3 +321,4 @@ a {
         margin-top: 0;
     }
 }
+    
