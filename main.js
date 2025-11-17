@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // ----------------------------------------------------------------------
+
     // FONCTIONNALITÉ 1 : Gestion du Menu Hamburger (US 2 - pour Mobile)
-    // ----------------------------------------------------------------------
+  
     const menuToggle = document.querySelector('.menu-toggle');
     const navList = document.querySelector('.nav-list');
     const breakpoint = 768; // Le point de bascule défini dans votre CSS @media (min-width: 768px)
@@ -40,12 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ----------------------------------------------------------------------
-    // FONCTIONNALITÉ 2 : Geste/Animation simple sur le logo (US 1 - Accueil)
-    // ----------------------------------------------------------------------
+    
+    // FONCTIONNALITÉ 2 : Geste/Animation simple sur le logo
+    
     const logoLink = document.querySelector('.logo a');
     if (logoLink) {
-        // ... (le code mouseenter/mouseleave pour le logo peut rester tel quel) ...
+        // ... (le code mouseenter/mouseleave pour le logo peut rester tel quel)
         logoLink.addEventListener('mouseenter', () => {
             logoLink.style.color = '#388E3C'; 
             logoLink.style.transition = 'color 0.3s ease-in-out';
