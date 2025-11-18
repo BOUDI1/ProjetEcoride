@@ -36,4 +36,16 @@ Pour contribuer ou tester le projet localement, suivez les étapes de configurat
 | :--- | :--- | :--- |
 | **VS Code** | Éditeur de code (avec extensions Live Server, etc.) | Indispensable pour l'édition et le prévisualisation rapide. |
 | **XAMPP** | Environnement de serveur local | Requis pour simuler le Back-End (PHP/MySQL) lors de la Phase II. |
-| **Git** | Outil de gestion de version | Configuré avec `user.name BOUDI1` et l'email associé pour la traçabilité. |
+| **Git** | Outil de gestion de version | Configuré avec `user.name BOUDI1` et l'email associé pour la traçabilité.
+---
+### 2. Démarrage Local du Projet
+
+1.  **Clonage du Dépôt :**
+    ```bash
+    git clone [https://docs.github.com/fr/repositories/creating-and-managing-repositories/about-repositories](https://docs.github.com/fr/repositories/creating-and-managing-repositories/about-repositories)
+    cd ecoride
+    ```
+2.  **Lancement du Front-End :** Ouvrez le fichier `index.html` dans VS Code et utilisez l'extension **Live Server** pour visualiser le site dans votre navigateur.
+3.  **Lancement du Back-End (Futur) :** Démarrez les modules Apache et MySQL via le panneau de contrôle XAMPP.
+
+---
