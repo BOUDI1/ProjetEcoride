@@ -26,3 +26,14 @@ Domaine | Technologie / Outil | Justification du Choix |
 | **Serveur Local** | XAMPP | Environnement de test pour le Back-End (Apache, PHP, MySQL) et la BDD Relationnelle future. |
 
 ---
+## ⚙️ Guide d'Installation et Environnement de Travail
+
+Pour contribuer ou tester le projet localement, suivez les étapes de configuration de l'environnement de travail :
+
+### 1. Prérequis et Configuration Logicielle
+
+| Logiciel | Rôle | Installation Requise |
+| :--- | :--- | :--- |
+| **VS Code** | Éditeur de code (avec extensions Live Server, etc.) | Indispensable pour l'édition et le prévisualisation rapide. |
+| **XAMPP** | Environnement de serveur local | Requis pour simuler le Back-End (PHP/MySQL) lors de la Phase II. |
+| **Git** | Outil de gestion de version | Configuré avec `user.name BOUDI1` et l'email associé pour la traçabilité. |
