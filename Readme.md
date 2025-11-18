@@ -49,3 +49,24 @@ Pour contribuer ou tester le projet localement, suivez les étapes de configurat
 3.  **Lancement du Back-End (Futur) :** Démarrez les modules Apache et MySQL via le panneau de contrôle XAMPP.
 
 ---
+## 🔒 Sécurité et Audit
+
+La sécurité est abordée sur trois couches, en s'appuyant sur les meilleures pratiques de l'industrie :
+
+### Front-End
+
+* **Validation Client :** Utilisation des attributs HTML5 (`required`, `pattern`) pour valider la force du **Mot de Passe Sécurisé** et le format des emails (US 7) avant l'envoi au serveur.
+* **Encodage des Données :** Mécanismes en place pour afficher le contenu généré par l'utilisateur (avis, préférences) comme du texte pur, mitigant les risques de **Cross-Site Scripting (XSS)** de base.
+
+### Audit et Méthodologie
+
+* **Veille Technologique :** Ma veille a ciblé les scanners de vulnérabilités, notamment **Greenbone Vulnerability Management (GVM) / OpenVAS**, qui a servi de référence pour comprendre et appliquer une méthodologie d'audit de sécurité rigoureuse.
+* **Tests de Sécurité :** Le site déployé a été scanné à l'aide d'outils d'audit externes (ex: HostedScan) pour vérifier activement les failles de configuration et les vulnérabilités courantes, en se basant sur les recommandations du guide **OWASP Testing Guide**.
+
+### Back-End (Planifié)
+
+* **Injection SQL :** Utilisation planifiée des **Requêtes Préparées (avec PHP PDO)** pour neutraliser les injections SQL.
+* **Authentification :** Stockage systématique des mots de passe hachés et salés (ex: bcrypt).
+* **Contrôle d'Accès :** Mise en place d'un contrôle d'accès basé sur les rôles (RBAC) pour les rôles sensibles (Employé US 12, Administrateur US 13).
+
+---
