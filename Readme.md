@@ -99,6 +99,4 @@ Le site bénéficie d'une configuration essentielle pour la sécurité :
 * **SSL/TLS :** Un certificat SSL est activé pour crypter les données.
 * **Forçage du HTTPS :** Toutes les requêtes `HTTP` non sécurisées sont automatiquement **redirigées vers `HTTPS`**, garantissant que toutes les interactions avec le site se font sur un canal chiffré.
 
----
-
 Merci pour votre collaboration et votre compréhension dans le cadre de ce projet.
