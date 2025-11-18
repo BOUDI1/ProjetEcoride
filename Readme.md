@@ -15,3 +15,14 @@ Le développement actuel se concentre sur les fonctionnalités Front-End critiqu
 * **US 6 :** Gestion de l'interactivité du menu hamburger (Mobile-First) via JavaScript.
 
 ---
+Domaine | Technologie / Outil | Justification du Choix |
+| :--- | :--- | :--- |
+| **Structure** | HTML5 | Base de tout développement web. |
+| **Style & Design** | CSS3 Natif & Media Queries | Mise en œuvre de la charte graphique et gestion de la **responsivité Mobile-First**. |
+| **Interactivité** | JavaScript Natif | Gestion des événements client-side (menu hamburger, validation de formulaire). |
+| **Maquettage** | **Figma** | Outil professionnel pour la conception des **Wireframes et Mockups** (3 Desktop, 3 Mobile) fidèles au CSS. |
+| **Gestion de Projet** | **Trello** | Utilisation d'un **Kanban partagé** pour la planification et le suivi des 13 US. |
+| **Versionning** | Git / GitHub | Traçabilité des modifications et hébergement du code source. |
+| **Serveur Local** | XAMPP | Environnement de test pour le Back-End (Apache, PHP, MySQL) et la BDD Relationnelle future. |
+
+---
