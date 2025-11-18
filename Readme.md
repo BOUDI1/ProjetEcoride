@@ -70,3 +70,23 @@ La sécurité est abordée sur trois couches, en s'appuyant sur les meilleures p
 * **Contrôle d'Accès :** Mise en place d'un contrôle d'accès basé sur les rôles (RBAC) pour les rôles sensibles (Employé US 12, Administrateur US 13).
 
 ---
+## 🌐 Déploiement et Accès
+
+L'application est en ligne sur un hébergeur gratuit pour une évaluation publique.
+
+* **Plateforme d'Hébergement :** alwaysdata
+* **URL de Déploiement :** `Ecoridefrance.alwaysdata.net`
+
+### Procédure de Déploiement
+
+Le déploiement a été effectué via le client **FileZilla (FTP)**. Tous les fichiers du projet ont été transférés de l'environnement local vers le répertoire racine du serveur distant.
+
+### Sécurité du Déploiement
+
+Le site bénéficie d'une configuration essentielle pour la sécurité :
+* **SSL/TLS :** Un certificat SSL est activé pour crypter les données.
+* **Forçage du HTTPS :** Toutes les requêtes `HTTP` non sécurisées sont automatiquement **redirigées vers `HTTPS`**, garantissant que toutes les interactions avec le site se font sur un canal chiffré.
+
+---
+
+Merci pour votre collaboration et votre compréhension dans le cadre de ce projet.
