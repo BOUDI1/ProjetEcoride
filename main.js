@@ -1,58 +1,90 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
 
-    // FONCTIONNALITÉ 1 : Gestion du Menu Hamburger (US 2 - pour Mobile)
-  
+    // --- FONCTIONNALITÉ 1 : Gestion du Menu Hamburger ---
     const menuToggle = document.querySelector('.menu-toggle');
     const navList = document.querySelector('.nav-list');
-    const breakpoint = 768; // Le point de bascule défini dans votre CSS @media (min-width: 768px)
+    const breakpoint = 768;
 
     if (menuToggle && navList) {
         menuToggle.addEventListener('click', () => {
-            // Vérifie si nous sommes en mode mobile (largeur < 768px)
             if (window.innerWidth < breakpoint) {
-                
-                // Bascule l'affichage du menu et change l'icône
-                navList.classList.toggle('is-open'); // Ajoute/retire la classe pour afficher/cacher
-                
+                navList.classList.toggle('is-open');
                 const icon = menuToggle.querySelector('i');
                 const isOpen = navList.classList.contains('is-open');
                 
-                if (isOpen) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
+                icon.classList.toggle('fa-bars', !isOpen);
+                icon.classList.toggle('fa-times', isOpen);
             }
         });
 
-        // Gestion de la transition entre mobile et desktop : 
-        // Si l'utilisateur redimensionne la fenêtre au-dessus du breakpoint, 
-        // on s'assure que la classe 'is-open' est retirée pour ne pas interférer avec le CSS desktop.
         window.addEventListener('resize', () => {
             if (window.innerWidth >= breakpoint && navList.classList.contains('is-open')) {
                 navList.classList.remove('is-open');
-                menuToggle.querySelector('i').classList.remove('fa-times');
-                menuToggle.querySelector('i').classList.add('fa-bars');
+                menuToggle.querySelector('i').className = 'fas fa-bars';
             }
         });
     }
 
-    
-    // FONCTIONNALITÉ 2 : Geste/Animation simple sur le logo
-    
+    // --- FONCTIONNALITÉ 2 : Animation Logo ---
     const logoLink = document.querySelector('.logo a');
     if (logoLink) {
-        // ... (le code mouseenter/mouseleave pour le logo peut rester tel quel)
-        logoLink.addEventListener('mouseenter', () => {
-            logoLink.style.color = '#388E3C'; 
-            logoLink.style.transition = 'color 0.3s ease-in-out';
-        });
+        logoLink.style.transition = 'color 0.3s ease-in-out';
+        logoLink.addEventListener('mouseenter', () => logoLink.style.color = '#388E3C');
+        logoLink.addEventListener('mouseleave', () => logoLink.style.color = 'var(--color-text)');
+    }
 
-        logoLink.addEventListener('mouseleave', () => {
-            logoLink.style.color = 'var(--color-text)'; 
+    // --- NOUVELLE FONCTIONNALITÉ 3 : Requêtes Asynchrones & ChartJS ---
+
+    async function initialiserDonnees() {
+        try {
+            // Requête asynchrone (attente de la réponse du conteneur Docker)
+            const reponse = await fetch('data.json');
+            if (!reponse.ok) throw new Error("Erreur de récupération des données");
+
+            const donnees = await reponse.json();
+
+            // 1. Manipulation du DOM : Afficher les chiffres
+            afficherStats(donnees.statsEcologiques);
+
+            // 2. Graphique : Dessiner avec Chart.js
+            creerGraphique(donnees.statsEcologiques);
+
+        } catch (erreur) {
+            console.error("Erreur lors du chargement asynchrone :", erreur);
+        }
+    }
+
+    function afficherStats(stats) {
+        const container = document.getElementById('container-stats');
+        if (!container) return;
+
+        container.innerHTML = stats.map(s => `
+            <div class="stat-card">
+                <h3>${s.label}</h3>
+                <p>${s.valeur}</p>
+            </div>
+        `).join('');
+    }
+
+    function creerGraphique(stats) {
+        const ctx = document.getElementById('myChart');
+        if (!ctx) return;
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: stats.map(s => s.label),
+                datasets: [{
+                    label: 'Impact Environnemental Ecoride',
+                    data: stats.map(s => s.valeur),
+                    backgroundColor: ['#388E3C', '#81C784', '#A5D6A7'],
+                    borderRadius: 5
+                }]
+            },
+            options: { responsive: true }
         });
     }
+
+    // Lancement de la logique asynchrone
+    initialiserDonnees();
 });
