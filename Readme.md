@@ -30,7 +30,44 @@ Domaine | Technologie / Outil | Justification du Choix |
 
 Pour contribuer ou tester le projet localement, suivez les étapes de configuration de l'environnement de travail :
 
-### 1. Prérequis et Configuration Logicielle
+### 2. Installation et Déploiement Local (Docker)
+
+Conformément aux besoins de configuration de l'environnement de travail[cite: 22], ce projet utilise **Docker** pour garantir un environnement identique sur toutes les machines.
+
+### Prérequis
+* Docker Desktop installé (Version AMD64 pour processeurs Intel/AMD).
+* Git installé.
+
+### Procédure de lancement
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone [https://github.com/BOUDI1/ProjetEcoride.git](https://github.com/BOUDI1/ProjetEcoride.git)
+    cd ProjetEcoride
+    ```
+
+2.  **Lancer l'environnement avec Docker Compose :**
+    Cette commande va construire l'image de l'application et démarrer le serveur web (Apache/PHP), la base de données SQL (MySQL) et la base NoSQL (MongoDB)[cite: 228, 233, 234].
+    ```bash
+    docker-compose up -d --build
+    ```
+
+3.  **Accéder à l'application :**
+    Ouvrez votre navigateur et rendez-vous sur : `http://localhost:8080`
+
+## 🛠 Stack Technique
+* [cite_start]**Front-end :** HTML5, CSS3 (Responsivité Mobile-First), JavaScript[cite: 230, 333, 334].
+* [cite_start]**Back-end :** PHP 8.2 (via Docker)[cite: 232].
+* [cite_start]**Bases de données :** * Relationnelle : MySQL (Gestion des utilisateurs, trajets, crédits)[cite: 233, 308].
+    * [cite_start]Non-Relationnelle : MongoDB (Gestion des logs et avis)[cite: 234, 308].
+* **Conteneurisation :** Docker & Docker Compose.
+
+## 🔒 Sécurité
+* [cite_start]Validation des formulaires côté client (HTML5) et serveur[cite: 359].
+* [cite_start]Protection contre les failles XSS par encodage des données[cite: 360].
+* [cite_start]Audit de sécurité basé sur le guide OWASP[cite: 356, 357].
+
+## 👤 Accès de Test
+* [cite_start]**Administrateur :** boudi2500@gmail.com / Studi2025@ [cite: 298, 299]
 
 | Logiciel | Rôle | Installation Requise |
 | :--- | :--- | :--- |
