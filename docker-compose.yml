@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Votre application EcoRide
+  webapp:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html # Permet de voir vos modifications de code en direct
+
+  # Base de données SQL (MySQL) - Exigence du projet
+  database_sql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecoride
+    ports:
+      - "3306:3306"
+
+  # Base de données NoSQL (MongoDB) - Exigence du projet
+  database_nosql:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
