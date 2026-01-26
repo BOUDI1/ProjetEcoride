@@ -1,0 +1,7 @@
+{
+  "stats": [
+    { "label": "CO2 Économisé", "valeur": 450 },
+    { "label": "Trajets", "valeur": 120 },
+    { "label": "Énergie", "valeur": 85 }
+  ]
+}
