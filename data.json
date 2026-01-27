@@ -1,7 +1,7 @@
 {
-  "stats": [
-    { "label": "CO2 Économisé", "valeur": 450 },
-    { "label": "Trajets", "valeur": 120 },
-    { "label": "Énergie", "valeur": 85 }
+  "statsEcologiques": [
+    { "label": "CO2 économisé (kg)", "valeur": 450 },
+    { "label": "Trajets réalisés", "valeur": 120 },
+    { "label": "Utilisateurs actifs", "valeur": 85 }
   ]
 }
