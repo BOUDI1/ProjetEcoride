@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('myChart');
         if (!ctx) return;
 
-        // On détruit l'ancien graphique s'il existe (évite les bugs au survol)
+
         if (window.myChartInstance) {
             window.myChartInstance.destroy();
         }
