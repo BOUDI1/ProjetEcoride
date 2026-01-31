@@ -126,4 +126,4 @@ Le site bénéficie d'une configuration essentielle pour la sécurité :
 
 ---
 
-Merci pour votre collaboration et votre compréhension dans le cadre de ce projet.
+Merci pour votre collaboration et votre compréhension dans le cadre de ce projet ecoride.
