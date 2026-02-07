@@ -114,7 +114,7 @@ L'application est en ligne sur un hébergeur gratuit pour une évaluation publiq
 * **Plateforme d'Hébergement :** alwaysdata
 * **URL de Déploiement :** `Ecoridefrance.alwaysdata.net`
 
-### Procédure de Déploiement
+### Procédure de Déploiement .
 
 Le déploiement a été effectué via le client **FileZilla (FTP)**. Tous les fichiers du projet ont été transférés de l'environnement local vers le répertoire racine du serveur distant.
 
