@@ -1,129 +1,71 @@
-# Projet EcoRide 
+# 🌿 Projet EcoRide 
+
 EcoRide est une plateforme web de covoiturage conçue dans le cadre de l'examen du Titre Professionnel de Développeur Web et Web Mobile (DWWM).
 
-L'objectif principal est de **réduire l'impact environnemental des déplacements** en favorisant le covoiturage. Le site se distingue par une **charte graphique écologique** et un ensemble de fonctionnalités (13 User Stories) couvrant la recherche de trajets, la gestion des comptes (passagers, chauffeurs) et l'administration des données (Employé, Administrateur).
+L'objectif principal est de **réduire l'impact environnemental des déplacements** en favorisant le covoiturage. Le site se distingue par une charte graphique écologique et un ensemble de fonctionnalités couvrant la recherche de trajets, la gestion des comptes et l'administration des données.
 
-La solution est conçue sur une architecture Full Stack nécessitant l'intégration future de bases de données Relationnelle et Non Relationnelle.
-## ✨ Fonctionnalités Clés Implémentées (Front-End)
+## ✨ Fonctionnalités Clés Implémentées
+Le développement intègre les fonctionnalités critiques du cahier des charges :
 
-Le développement actuel se concentre sur les fonctionnalités Front-End critiques :
-
-* **US 1 & 2 :** Interface d'accueil, Navigation complète (Accueil, Covoiturages, Connexion, Contact) et Mentions Légales.
-* **US 3 & 4 :** Barre de Recherche d'itinéraires et Filtres de résultats (Prix, Note, **Aspect Écologique**).
-* **US 5 :** Affichage de la Vue Détaillée d'un covoiturage.
-* **US 7 :** Formulaire de Création de Compte avec exigence de **Mot de Passe Sécurisé**.
+* **US 1 & 2 :** Interface d'accueil et navigation complète (Accueil, Covoiturages, Connexion, Contact).
+* **US 3 & 4 :** Barre de recherche d'itinéraires et filtres de résultats (Prix, Note, **Aspect Écologique**).
 * **US 6 :** Gestion de l'interactivité du menu hamburger (Mobile-First) via JavaScript.
+* **US 13 (Dynamisation) :** Affichage asynchrone des statistiques d'impact écologique via l'**API Fetch** et visualisation graphique par **Chart.js**.
+* **Architecture Multi-BDD :** Utilisation conjointe de **MySQL** (données relationnelles pour les trajets/crédits) et **MongoDB** (données non-relationnelles pour les avis et logs).
 
 ---
-Domaine | Technologie / Outil | Justification du Choix |
+
+## 🛠 Environnement Technique & Technologies
+
+| Domaine | Technologie / Outil | Justification du Choix |
 | :--- | :--- | :--- |
-| **Structure** | HTML5 | Base de tout développement web. |
-| **Style & Design** | CSS3 Natif & Media Queries | Mise en œuvre de la charte graphique et gestion de la **responsivité Mobile-First**. |
-| **Interactivité** | JavaScript Natif | Gestion des événements client-side (menu hamburger, validation de formulaire). |
-| **Maquettage** | **Figma** | Outil professionnel pour la conception des **Wireframes et Mockups** (3 Desktop, 3 Mobile) fidèles au CSS. |
-| **Gestion de Projet** | **Trello** | Utilisation d'un **Kanban partagé** pour la planification et le suivi des 13 US. |
-| **Versionning** | Git / GitHub | Traçabilité des modifications et hébergement du code source. |
-| **Serveur Local** | XAMPP | Environnement de test pour le Back-End (Apache, PHP, MySQL) et la BDD Relationnelle future. |
+| **Serveur Local** | **Docker** | Isolation des services (PHP, MySQL, MongoDB) et portabilité totale (Remplace XAMPP). |
+| **Front-End** | **HTML5 / CSS3 / JS** | Utilisation de Flexbox (Sticky Footer) et de l'API Fetch pour l'asynchronisme. |
+| **Back-End** | **PHP 8.2 (PDO)** | Langage serveur robuste avec requêtes préparées pour la sécurité SQL. |
+| **Base de Données** | **MySQL & MongoDB** | Système hybride SQL et NoSQL selon les exigences de l'énoncé. |
+| **Graphisme** | **Figma** | Réalisation de 12 designs (Wireframes & Mockups) en version Desktop et Mobile. |
+| **Gestion de Projet** | **Trello & Git** | Méthode Agile (Kanban) et stratégie de branches GitHub Flow. |
 
 ---
-## ⚙️ Guide d'Installation et Environnement de Travail
 
-Pour contribuer ou tester le projet localement, suivez les étapes de configuration de l'environnement de travail :
+## ⚙️ Installation et Lancement (Docker)
 
-### 2. Installation et Déploiement Local (Docker)
+Le projet est entièrement conteneurisé pour garantir un environnement de développement identique à la production :
 
-Conformément aux besoins de configuration de l'environnement de travail[cite: 22], ce projet utilise **Docker** pour garantir un environnement identique sur toutes les machines.
-
-### Prérequis
-* Docker Desktop installé (Version AMD64 pour processeurs Intel/AMD).
-* Git installé.
-
-### Procédure de lancement
 1.  **Cloner le dépôt :**
     ```bash
     git clone [https://github.com/BOUDI1/ProjetEcoride.git](https://github.com/BOUDI1/ProjetEcoride.git)
     cd ProjetEcoride
     ```
 
-2.  **Lancer l'environnement avec Docker Compose :**
-    Cette commande va construire l'image de l'application et démarrer le serveur web (Apache/PHP), la base de données SQL (MySQL) et la base NoSQL (MongoDB)[cite: 228, 233, 234].
+2.  **Lancer les conteneurs :**
     ```bash
     docker-compose up -d --build
     ```
 
 3.  **Accéder à l'application :**
-    Ouvrez votre navigateur et rendez-vous sur : `http://localhost:8080`
-
-## 🛠 Stack Technique
-* [cite_start]**Front-end :** HTML5, CSS3 (Responsivité Mobile-First), JavaScript[cite: 230, 333, 334].
-* [cite_start]**Back-end :** PHP 8.2 (via Docker)[cite: 232].
-* [cite_start]**Bases de données :** * Relationnelle : MySQL (Gestion des utilisateurs, trajets, crédits)[cite: 233, 308].
-    * [cite_start]Non-Relationnelle : MongoDB (Gestion des logs et avis)[cite: 234, 308].
-* **Conteneurisation :** Docker & Docker Compose.
-
-## 🔒 Sécurité
-* [cite_start]Validation des formulaires côté client (HTML5) et serveur[cite: 359].
-* [cite_start]Protection contre les failles XSS par encodage des données[cite: 360].
-* [cite_start]Audit de sécurité basé sur le guide OWASP[cite: 356, 357].
-
-## 👤 Accès de Test
-* [cite_start]**Administrateur :** boudi2500@gmail.com / Studi2025@ [cite: 298, 299]
-
-| Logiciel | Rôle | Installation Requise |
-| :--- | :--- | :--- |
-| **VS Code** | Éditeur de code (avec extensions Live Server, etc.) | Indispensable pour l'édition et le prévisualisation rapide. |
-| **XAMPP** | Environnement de serveur local | Requis pour simuler le Back-End (PHP/MySQL) lors de la Phase II. |
-| **Git** | Outil de gestion de version | Configuré avec `user.name BOUDI1` et l'email associé pour la traçabilité.
----
-### 2. Démarrage Local du Projet
-
-1.  **Clonage du Dépôt :**
-    ```bash
-    git clone [https://docs.github.com/fr/repositories/creating-and-managing-repositories/about-repositories](https://docs.github.com/fr/repositories/creating-and-managing-repositories/about-repositories)
-    cd ecoride
-    ```
-2.  **Lancement du Front-End :** Ouvrez le fichier `index.html` dans VS Code et utilisez l'extension **Live Server** pour visualiser le site dans votre navigateur.
-3.  **Lancement du Back-End (Futur) :** Démarrez les modules Apache et MySQL via le panneau de contrôle XAMPP.
+    Ouvrez votre navigateur sur [http://localhost:8080](http://localhost:8080).
 
 ---
+
 ## 🔒 Sécurité et Audit
+La sécurité est intégrée dès la conception de l'application EcoRide :
 
-La sécurité est abordée sur trois couches, en s'appuyant sur les meilleures pratiques de l'industrie :
-
-### Front-End
-
-* **Validation Client :** Utilisation des attributs HTML5 (`required`, `pattern`) pour valider la force du **Mot de Passe Sécurisé** et le format des emails (US 7) avant l'envoi au serveur.
-* **Encodage des Données :** Mécanismes en place pour afficher le contenu généré par l'utilisateur (avis, préférences) comme du texte pur, mitigant les risques de **Cross-Site Scripting (XSS)** de base.
-
-### Audit et Méthodologie
-
-* **Veille Technologique :** Ma veille a ciblé les scanners de vulnérabilités, notamment **Greenbone Vulnerability Management (GVM) / OpenVAS**, qui a servi de référence pour comprendre et appliquer une méthodologie d'audit de sécurité rigoureuse.
-* **Tests de Sécurité :** Le site déployé a été scanné à l'aide d'outils d'audit externes (ex: HostedScan) pour vérifier activement les failles de configuration et les vulnérabilités courantes, en se basant sur les recommandations du guide **OWASP Testing Guide**.
-
-### Back-End (Planifié)
-
-* **Injection SQL :** Utilisation planifiée des **Requêtes Préparées (avec PHP PDO)** pour neutraliser les injections SQL.
-* **Authentification :** Stockage systématique des mots de passe hachés et salés (ex: bcrypt).
-* **Contrôle d'Accès :** Mise en place d'un contrôle d'accès basé sur les rôles (RBAC) pour les rôles sensibles (Employé US 12, Administrateur US 13).
+* **Sécurité SQL :** Utilisation systématique de **PHP PDO avec requêtes préparées** pour neutraliser les injections SQL.
+* **Protection XSS :** Échappement des données via `htmlspecialchars()` avant affichage dans le DOM.
+* **Audit Actif :** Veille effectuée selon le guide **OWASP Testing Guide** et scans de vulnérabilités via **HostedScan**.
+* **Mots de Passe :** Hachage sécurisé (Argon2id/bcrypt) pour la protection des comptes utilisateurs.
 
 ---
+
 ## 🌐 Déploiement et Accès
+L'application est déployée en ligne pour permettre une évaluation en conditions réelles :
 
-L'application est en ligne sur un hébergeur gratuit pour une évaluation publique.
-
-* **Plateforme d'Hébergement :** alwaysdata
-* **URL de Déploiement :** `Ecoridefrance.alwaysdata.net`
-
-### Procédure de Déploiement .
-
-Le déploiement a été effectué via le client **FileZilla (FTP)**. Tous les fichiers du projet ont été transférés de l'environnement local vers le répertoire racine du serveur distant.
-
-### Sécurité du Déploiement
-
-Le site bénéficie d'une configuration essentielle pour la sécurité :
-* **SSL/TLS :** Un certificat SSL est activé pour crypter les données.
-* **Forçage du HTTPS :** Toutes les requêtes `HTTP` non sécurisées sont automatiquement **redirigées vers `HTTPS`**, garantissant que toutes les interactions avec le site se font sur un canal chiffré.
+* **Hébergeur :** alwaysdata
+* **URL de Déploiement :** [Ecoridefrance.alwaysdata.net](https://ecoridefrance.alwaysdata.net)
+* **Sécurité Déploiement :** Certificat **SSL/TLS** activé avec forçage du **HTTPS** via le fichier `.htaccess`.
 
 ---
 
-Merci pour votre collaboration et votre compréhension dans le cadre de ce projet ecoride.
+## 👥 Auteur
+**Abdallah EL ASSAAD** - Étudiant Développeur Web et Web Mobile
