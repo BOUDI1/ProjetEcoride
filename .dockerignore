@@ -1,0 +1,21 @@
+# On ne copie pas les dossiers de données locaux de Docker
+mysql_data/
+mongo_data/
+
+# On ignore les fichiers Git (inutiles au fonctionnement du site)
+.git/
+.gitignore
+
+# On ignore la documentation et les fichiers de conception
+assets/*.pdf
+README.md
+
+# On ignore les fichiers système inutiles
+.DS_Store
+Thumbs.db
+.vscode/
+
+# On ignore le Dockerfile lui-même et le docker-compose
+Dockerfile
+docker-compose.yml
+.dockerignore

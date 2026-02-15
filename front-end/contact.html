@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoRide - Nous Contacter</title>
+    <title>EcoRide - Contactez-nous</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
- <header class="header">
+    <header class="header">
         <div class="container">
             <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
             <nav class="nav">
-                <button class="menu-toggle" aria-label="Ouvrir le menu"><i class="fas fa-bars"></i></button>
                 <ul class="nav-list">
                     <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
                     <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
@@ -23,44 +21,49 @@
             </nav>
         </div>
     </header>
-   <main class="main-content">
-        <section class="page-header">
-            <div class="container">
-                <h2>Contactez l'équipe EcoRide</h2>
-                <p>Nous sommes là pour répondre à vos questions sur les trajets et le covoiturage écologique.</p>
-            </div>
-        </section>
 
-        <section class="section-content form-container">
-            <div class="feature-card form-box">
-                <form id="contactForm">
-                    <input type="text" placeholder="Votre Nom" required aria-label="Votre nom">
-                    <input type="email" placeholder="Votre Email" required aria-label="Votre email">
-                    <select aria-label="Sujet du message">
-                        <option value="">Sélectionnez un sujet</option>
-                        <option value="reservation">Réservation/Annulation</option>
-                        <option value="credits">Crédits et Paiements</option>
-                        <option value="general">Question Générale</option>
-                    </select>
-                    <textarea placeholder="Votre message..." rows="5" required aria-label="Votre message"></textarea>
-                    <button type="submit" class="btn-primary">Envoyer le Message</button>
-                </form>
-                <p class="info-contact">Ou par mail direct : contact@ecoride.fr</p>
+    <main class="container">
+        <section class="contact-section">
+            <div class="contact-info">
+                <h2>Besoin d'aide ?</h2>
+                <p>Une question sur vos crédits, un trajet ou un problème technique ? Notre équipe vous répond sous 24h.</p>
+                <div class="contact-details">
+                    <p><i class="fas fa-envelope"></i> <strong>Email :</strong> contact@ecoride.fr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Siège :</strong> Paris, France</p>
+                </div>
             </div>
+
+            <form id="contact-form" class="contact-form">
+                <div class="input-group">
+                    <label for="contact-name">Nom complet</label>
+                    <input type="text" id="contact-name" required placeholder="Votre nom">
+                </div>
+                <div class="input-group">
+                    <label for="contact-email">Votre Email</label>
+                    <input type="email" id="contact-email" required placeholder="votre@email.com">
+                </div>
+                <div class="input-group">
+                    <label for="contact-subject">Sujet</label>
+                    <select id="contact-subject">
+                        <option value="question">Question générale</option>
+                        <option value="credits">Problème de crédits</option>
+                        <option value="chauffeur">Devenir chauffeur</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" rows="5" required placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Envoyer le message</button>
+            </form>
         </section>
     </main>
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 EcoRide. Tous droits réservés.</p>
-            <div class="footer-links">
-                <p>Contact: <a href="mailto:contact@ecoride.fr">contact@ecoride.fr</a></p>
-                <span>|</span>
-                <a href="mentions_legales.html">Mentions Légales</a>
-            </div>
-        </div>
-    </footer>
-    
-   <script src="main.js"></script>
 
+    <footer class="footer">
+        <p>&copy; 2025 EcoRide. <a href="mentions_legales.html">Mentions Légales</a></p>
+    </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
