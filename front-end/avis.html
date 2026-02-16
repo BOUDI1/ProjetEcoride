@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Laisser un avis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f4f7f6; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            margin: 0;
+        }
+        .form-container { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 400px; 
+        }
+        h2 { color: #2ecc71; text-align: center; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #34495e; }
+        
+        input, textarea, select { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 14px;
+        }
+        textarea { height: 120px; resize: none; }
+        
+        .btn-submit { 
+            width: 100%; 
+            padding: 15px; 
+            background: #2ecc71; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold;
+            cursor: pointer; 
+            transition: background 0.3s, transform 0.2s; 
+        }
+        .btn-submit:hover { background: #27ae60; transform: translateY(-2px); }
+        .btn-submit:active { transform: translateY(0); }
+        
+        .back-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 20px; 
+            color: #7f8c8d; 
+            text-decoration: none; 
+            font-size: 14px; 
+        }
+        .back-link:hover { color: #2ecc71; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2><i class="fas fa-pen-fancy"></i> Votre avis</h2>
+    
+    <form id="avisForm">
+        <label for="pseudo">Pseudo</label>
+        <input type="text" id="pseudo" placeholder="Ex: Jean-Marc" required>
+
+        <label for="note">Note du trajet</label>
+        <select id="note">
+            <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4">⭐⭐⭐⭐ (Très bien)</option>
+            <option value="3">⭐⭐⭐ (Moyen)</option>
+            <option value="2">⭐⭐ (Bof)</option>
+            <option value="1">⭐ (Mauvais)</option>
+        </select>
+
+        <label for="commentaire">Commentaire</label>
+        <textarea id="commentaire" placeholder="Racontez-nous votre trajet..." required></textarea>
+
+        <button type="button" class="btn-submit" onclick="envoyerAvis()">
+            Publier mon avis
+        </button>
+    </form>
+    
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+</div>
+
+<script>
+    async function envoyerAvis() {
+        const pseudo = document.getElementById('pseudo').value;
+        const commentaire = document.getElementById('commentaire').value;
+        const note = document.getElementById('note').value;
+
+        // Vérification simple
+        if (!pseudo || !commentaire) {
+            alert("⚠️ Veuillez remplir tous les champs avant d'envoyer.");
+            return;
+        }
+
+        try {
+            // Chemin relatif pour sortir de front-end et entrer dans back-end
+            const response = await fetch('../back-end/api/post_avis.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pseudo: pseudo,
+                    commentaire: commentaire,
+                    note: note
+                })
+            });
+
+            // On vérifie si la réponse est OK (code 200)
+            if (!response.ok) {
+                throw new Error("Le serveur a répondu avec une erreur (404 ou 500)");
+            }
+
+            const result = await response.json();
+
+            if (result.status === "success") {
+                alert("✅ " + result.message);
+                window.location.href = "index.html"; // Redirection vers l'accueil
+            } else {
+                alert("❌ Erreur : " + result.message);
+            }
+
+        } catch (error) {
+            console.error("Erreur Fetch :", error);
+            alert("🛑 Impossible de contacter le serveur. Vérifiez que le fichier post_avis.php est bien dans back-end/api/.");
+        }
+    }
+</script>
+
+</body>
+</html>

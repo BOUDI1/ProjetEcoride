@@ -79,6 +79,51 @@
             </div>
         </section>
     </main>
+    <section class="presentation" style="background-color: #f9f9f9; padding: 60px 0;">
+            <div class="container" style="text-align: center;">
+                <h3>Ce que nos voyageurs pensent de nous</h3>
+                
+                <div style="margin-bottom: 40px;">
+                    <p style="color: #666; margin-bottom: 20px;">Votre expérience nous aide à faire grandir la communauté EcoRide !</p>
+                    <a href="avis.html" class="btn-primary" style="text-decoration: none; display: inline-block; padding: 12px 30px; border-radius: 50px;">
+                        <i class="fas fa-star"></i> Laisser un avis
+                    </a>
+                </div>
+
+                <div id="container-avis-public" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                    <p>Chargement des témoignages...</p>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Fonction pour récupérer uniquement les avis validés
+            async function afficherAvisPublics() {
+                try {
+                    const response = await fetch('http://localhost:8080/back-end/api/get_avis_valides.php');
+                    const result = await response.json();
+                    const container = document.getElementById('container-avis-public');
+
+                    if (result.status === "success" && result.data.length > 0) {
+                        container.innerHTML = result.data.map(avis => `
+                            <div style="background: white; padding: 25px; border-radius: 15px; width: 300px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; border-top: 4px solid #2ecc71;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <strong style="color: #2c3e50;">${avis.pseudo}</strong>
+                                    <span style="color: #f1c40f;">${"★".repeat(avis.note)}${"☆".repeat(5-avis.note)}</span>
+                                </div>
+                                <p style="font-style: italic; color: #555; line-height: 1.5;">"${avis.commentaire}"</p>
+                            </div>
+                        `).join('');
+                    } else {
+                        container.innerHTML = "<p>Aucun avis pour le moment. Soyez le premier !</p>";
+                    }
+                } catch (error) {
+                    console.error("Erreur lors du chargement des avis:", error);
+                }
+            }
+            // Lancement au chargement de la page
+            document.addEventListener('DOMContentLoaded', afficherAvisPublics);
+        </script>
 
     <footer class="footer">
         <div class="container">
