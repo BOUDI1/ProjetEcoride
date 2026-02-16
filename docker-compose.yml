@@ -1,44 +1,40 @@
 version: '3.8'
 
 services:
-  # 1. Le serveur Web (PHP + Apache)
-  web:
-    build: .
+  # 1. Le serveur Web (Apache + PHP)
+  webapp:
     container_name: ecoride_webapp
+    build: .
     ports:
       - "8080:80"
     volumes:
       - .:/var/www/html
     depends_on:
-      - db
-      - mongodb
+      - db_sql
+      - db_nosql
 
-  # 2. La base de données SQL (MySQL) - US 7, 8, 9, 10
-  db:
-    image: mysql:8.0
+  # 2. La base de données SQL (MySQL/MariaDB)
+  db_sql:
     container_name: ecoride_db_sql
+    image: mariadb:10.6
     restart: always
     environment:
-      MYSQL_DATABASE: ecoride_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecoride
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
 
-  # 3. La base de données NoSQL (MongoDB) - US 12 (Avis)
-  mongodb:
-    image: mongo:latest
+  # 3. La base de données NoSQL (MongoDB pour les avis)
+  db_nosql:
     container_name: ecoride_db_nosql
+    image: mongo:latest
     restart: always
-    environment:
-      MONGO_INITDB_DATABASE: ecoride_nosql
     ports:
-      - "27017:27017"
+      - "27018:27017" # On utilise 27018 à l'extérieur pour éviter les conflits
     volumes:
-      - mongo_data:/data/db
+      - ./mongo_data:/data/db
 
 volumes:
   db_data:

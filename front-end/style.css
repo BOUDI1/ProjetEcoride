@@ -3,73 +3,52 @@
     --color-primary: #4CAF50;    /* Vert Écologique */
     --color-secondary: #8BC34A;  /* Vert Clair  */
     --color-background: #F5F5F5; /* Fond clair */
-    --color-text: #212121;      /* Texte principal */
-    --color-light-text: #666;   /* Texte secondaire */
+    --color-text: #212121;       /* Texte principal */
+    --color-light-text: #666;    /* Texte secondaire */
     --color-white: #FFFFFF;
 
     /* Typographie */
     --font-family-main: 'Inter', sans-serif;
 }
 
+/* Reset de base */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: var(--font-family-main);
     background-color: var(--color-background);
     color: var(--color-text);
     line-height: 1.6;
-    /* Styles pour rendre la mise en page 'sticky footer' */
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Garantit que le corps prend au moins la hauteur de la vue */
+    min-height: 100vh;
 }
 
 main {
-    flex-grow: 1; /* Permet au contenu principal de prendre tout l'espace restant */
+    flex-grow: 1;
 }
+
 a {
     text-decoration: none;
     color: var(--color-primary);
 }
+
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Style pour rendre l'image responsive */
-.responsive-image {
-    width: 100%; 
-    height: 100%;
-    object-fit: cover; 
-    border-radius: 5px; 
-}
-
-/* Bouton Primaire */
-.btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #388E3C;
-}
-/* Header Menu Mobile */
-
+/* --- HEADER & NAVIGATION --- */
 .header {
     background-color: var(--color-white);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     padding: 15px 0;
+    position: relative;
 }
 
 .header .container {
@@ -85,19 +64,32 @@ a {
 
 .logo a {
     color: var(--color-text);
-}  
-/* Navigation Mobile */
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+/* Navigation Mobile (Masquée par défaut) */
 .nav-list {
-    display: none; /* <-- SUPPRIMEZ OU COMMENTEZ CETTE LIGNE */
+    display: none; 
     flex-direction: column;
     position: absolute;
-    top: 65px; /* Sous le header */
+    top: 100%; /* Juste en dessous du header */
     left: 0;
     width: 100%;
     background-color: var(--color-white);
-    z-index: 10;
+    z-index: 100;
     padding: 10px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-list.is-open {
+    display: flex; /* Affiché via JavaScript */
 }
 
 .nav-list li {
@@ -107,32 +99,21 @@ a {
 
 .nav-list a {
     display: block;
-    padding: 10px 20px;
+    padding: 12px 20px;
     color: var(--color-text);
     font-weight: 600;
 }
 
-.nav-list a:hover,
 .nav-list a.active {
-    background-color: var(--color-background);
     color: var(--color-primary);
+    background-color: #e8f5e9;
 }
-.menu-toggle {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: var(--color-text);
-    cursor: pointer;
-}
-.nav-list.is-open {
-    display: flex; /* Le JS ajoute cette classe pour afficher le menu */
-}
-/* Hero et Barre de Recherche (Mobile) */
 
+/* --- HERO & BARRE DE RECHERCHE --- */
 .hero {
     background-color: var(--color-secondary);
     color: var(--color-white);
-    padding: 40px 0;
+    padding: 60px 0;
     text-align: center;
 }
 
@@ -142,56 +123,82 @@ a {
 }
 
 .hero p {
-    margin-bottom: 25px;
-    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+/* Centrage de la barre de recherche */
+.search-bar {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* Centre le bloc dans le hero */
 }
 
 .search-bar form {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 0 15px;
 }
 
 .search-bar input,
 .search-bar button {
-    width: 100%;
     padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
 }
 
-.search-bar input {
-    color: var(--color-text);
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
 }
-/* Présentation et Features (Mobile) */
 
+.btn-primary:hover {
+    background-color: #388E3C;
+}
+
+/* --- PRÉSENTATION & MISSIONS --- */
 .presentation {
-    padding: 40px 0;
+    padding: 50px 0;
 }
 
 .presentation h3 {
     text-align: center;
-    font-size: 24px;
+    font-size: 26px;
     color: var(--color-primary);
     margin-bottom: 30px;
 }
 
 .content-row {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .text-mission {
-    font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
+/* Image Responsive */
 .image-placeholder {
-    height: 150px; 
-    border-radius: 5px;
-    overflow: hidden; 
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+.responsive-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Grille de fonctionnalités */
 .features-row {
     display: flex;
     flex-direction: column;
@@ -200,103 +207,84 @@ a {
 
 .feature-card {
     background-color: var(--color-white);
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .icon-large {
-    font-size: 36px;
+    font-size: 40px;
     color: var(--color-primary);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.feature-card h4 {
-    margin-bottom: 5px;
-}
-/* Footer (Mobile) */
-
+/* --- FOOTER --- */
 .footer {
     background-color: var(--color-text);
     color: var(--color-white);
-    padding: 20px 0;
+    padding: 30px 0;
     text-align: center;
-    font-size: 14px;
 }
 
 .footer-links {
     margin-top: 10px;
 }
 
-.footer-links a,
-.footer-links p {
+.footer-links a {
     color: var(--color-white);
-    display: inline;
-}
-
-.footer-links span {
     margin: 0 10px;
 }
-/* Media Query: Adaptation au Desktop (à partir de 768px) */
-@media (min-width: 768px){
+
+/* --- MEDIA QUERIES (DESKTOP) --- */
+@media (min-width: 768px) {
     /* Header Desktop */
     .menu-toggle {
-        display: none; /* Cacher le bouton menu hamburger */
+        display: none;
     }
 
-    
     .nav-list {
-        display: flex; /* Afficher le menu en ligne */
+        display: flex;
         position: static;
         flex-direction: row;
         box-shadow: none;
+        width: auto;
         padding: 0;
     }
 
     .nav-list li {
-        margin-left: 20px;
+        margin-left: 25px;
     }
 
-    .nav-list a {
-        padding: 5px 10px;
-        background-color: transparent;
-    }
-
-    /* Hero Desktop */
-    .hero {
-        padding: 60px 0;
-    }
-
-    .hero h2 {
-        font-size: 40px;
-    }
-/* autres styles desktop  */
-    
-    .image-placeholder {
-        flex: 1;
-        height: 250px; /* Augmenter la hauteur sur desktop */
-    }
-/* Search Bar Desktop */
+    /* Barre de recherche horizontale */
     .search-bar form {
-        flex-direction: row; /* Alignement horizontal */
-        max-width: 900px;
-        margin: 30px auto 0;
+        flex-direction: row;
+        background: white;
+        padding: 10px;
+        border-radius: 50px; /* Style "pilule" moderne */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    
-    .search-bar input,
-    .search-bar button {
-        flex: 1; /* Distribue l'espace équitablement */
+
+    .search-bar input {
+        border: none;
+        border-right: 1px solid #eee;
+        border-radius: 0;
+    }
+
+    .search-bar input:last-of-type {
+        border-right: none;
     }
 
     .search-bar button {
-        flex: 0 0 150px; /* Taille fixe pour le bouton */
+        border-radius: 50px;
     }
-    /* Presentation Desktop */
+
+    /* Présentation Desktop */
     .content-row {
         display: flex;
-        gap: 30px;
+        gap: 50px;
         align-items: center;
+        text-align: left;
     }
 
     .text-mission {
@@ -304,24 +292,16 @@ a {
         margin-bottom: 0;
     }
 
-    .features-row {
-        flex-direction: row; /* Alignement horizontal */
-        justify-content: space-between;
-    }
-    
-    .feature-card {
+    .image-placeholder {
         flex: 1;
-        max-width: 30%;
-    }
-     /* Footer Desktop */
-    .footer .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        margin: 0;
     }
 
-    .footer-links {
-        margin-top: 0;
+    .features-row {
+        flex-direction: row;
+    }
+
+    .feature-card {
+        flex: 1;
     }
 }
-    

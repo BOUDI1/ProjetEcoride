@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoRide - Le Covoiturage Écologique</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -13,28 +13,30 @@
         <div class="container">
             <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
             <nav class="nav">
-                <button class="menu-toggle" aria-label="Ouvrir le menu"><i class="fas fa-bars"></i></button>
-                <ul class="nav-list">
-                    <li><a href="index.html" class="active-on-index"><i class="fas fa-home"></i> Accueil</a></li> 
-                    <li><a href="covoiturages.html" class="active-on-covoit"><i class="fas fa-car"></i> Covoiturages</a></li>
-                    <li><a href="connexion.html" class="active-on-connexion"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
-                    <li><a href="contact.html" class="active-on-contact"><i class="fas fa-headset"></i> Contact</a></li>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li> 
+                    <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
+                    <li><a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                    <li><a href="contact.html"><i class="fas fa-headset"></i> Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
+
     <main>
         <section class="hero">
             <div class="container">
                 <h2>Réduisez votre impact, partagez votre trajet !</h2>
-                <p>La plateforme qui vous connecte avec des covoitureurs soucieux de l'environnement.</p>
-
+                <p>La plateforme de covoiturage soucieuse de l'environnement.</p>
                 <div class="search-bar">
-                    <form action="covoiturages.html" method="GET">
-                        <input type="text" name="depart" placeholder="Ville de départ" aria-label="Ville de départ">
-                        <input type="text" name="arrivee" placeholder="Ville d'arrivée" aria-label="Ville d'arrivée">
-                        <input type="date" name="date" aria-label="Date du voyage">
-                        <button type="submit" class="btn-primary"><i class="fas fa-search"></i> Rechercher</button>
+                    <form id="search-form">
+                        <input type="text" id="depart" placeholder="Ville de départ" required>
+                        <input type="text" id="arrivee" placeholder="Ville d'arrivée" required>
+                        <input type="date" id="date-voyage">
+                        <button type="submit" class="btn-primary">Rechercher</button>
                     </form>
                 </div>
             </div>
@@ -44,11 +46,12 @@
             <div class="container">
                 <h3>Notre Mission Écologique</h3>
                 <div class="content-row">
-                    <p class="text-mission">
-                        EcoRide a été fraîchement créée en France, avec pour vocation de faciliter le covoiturage automobile et ainsi de réduire significativement l'empreinte carbone de nos déplacements.
-                    </p>
+                    <div class="text-mission">
+                        <p>EcoRide facilite le covoiturage pour réduire l'empreinte carbone. En choisissant EcoRide, vous optez pour une solution économique et écologique.</p>
+                    </div>
+                    
                     <div class="image-placeholder">
-                        <img src="../images/photo-driver.jpg" alt="Conducteur EcoRide" class="responsive-image">
+                        <img src="../images/photo-driver.jpg" alt="Conducteur EcoRide au coucher du soleil" class="responsive-image">
                     </div>
                 </div>
                 
@@ -56,24 +59,23 @@
                     <div class="feature-card">
                         <i class="fas fa-leaf icon-large"></i>
                         <h4>Impact Réduit</h4>
-                        <p>Favorisez les véhicules électriques.</p>
+                        <p id="co2-save">Chargement...</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-car icon-large"></i>
                         <h4>Trajets réalisés</h4>
-                        <p id="nb-trajets">Chargement...</p> </div>
+                        <p id="nb-trajets">Chargement...</p>
+                    </div>
                     <div class="feature-card">
-                        <i class="fas fa-seedling icon-large"></i>
-                        <h4>CO2 Économisé</h4>
-                        <p id="co2-save">Chargement...</p> </div>
+                        <i class="fas fa-shield-alt icon-large"></i>
+                        <h4>Sécurité</h4>
+                        <p>Chauffeurs vérifiés et avis modérés.</p>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="stats-section" class="container">
-            <h3>Impact EcoRide en temps réel</h3>
-            <div style="max-width: 600px; margin: 20px auto;">
-                <canvas id="myChart"></canvas>
+                <div style="max-width: 600px; margin: 40px auto;">
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
         </section>
     </main>
@@ -81,10 +83,15 @@
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 EcoRide. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="mailto:contact@ecoride.fr">contact@ecoride.fr</a>
+                <span>|</span>
+                <a href="mentions_legales.html">Mentions Légales</a>
+            </div>
         </div>
     </footer>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="main.js"></script>
+    <script src="./main.js"></script>
 </body>
 </html>

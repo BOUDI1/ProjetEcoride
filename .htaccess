@@ -1,18 +1,9 @@
-# 1. Empêcher l'affichage de la liste des dossiers
-# (Sécurité : évite qu'un curieux ne voie l'arborescence de ton back-end)
-Options -Indexes
-
-# 2. Définir la page d'accueil par défaut
+# 1. On définit la page d'accueil par défaut
 DirectoryIndex front-end/index.html
 
-# 3. Forcer l'encodage UTF-8 pour éviter les problèmes d'accents
-AddDefaultCharset UTF-8
+# 2. On s'assure que les dossiers sont accessibles
+Options +FollowSymLinks -Indexes
 
-# 4. Protection simple des fichiers sensibles
-<FilesMatch "^\.|\.(sql|php|log)$">
-    # On autorise l'accès aux API mais on bloque l'accès direct aux fichiers config
-    # Note : Dans un environnement pro, on serait plus restrictif ici
-</FilesMatch>
-
-# 5. Gestion des erreurs personnalisée (Optionnel)
-# ErrorDocument 404 /front-end/404.html
+# 3. Si quelqu'un tape l'adresse sans rien, on le force à aller vers le front-end
+RewriteEngine On
+RewriteRule ^$ /front-end/index.html [L,R=301]

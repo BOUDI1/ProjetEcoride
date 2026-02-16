@@ -1,79 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. CHARGEMENT DES STATISTIQUES (Accueil) ---
+    // --- 1. GESTION DU MENU MOBILE ---
+    const menuToggle = document.getElementById('menu-toggle');
+    const navList = document.getElementById('nav-list');
+
+    if (menuToggle && navList) {
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('is-open');
+        });
+    }
+
+    // --- 2. RÉCUPÉRATION DES STATS ET GRAPHIQUE ---
     const loadStats = async () => {
         try {
-            // On appelle l'API PHP qui compte les trajets dans MySQL
             const response = await fetch('../back-end/api/get_stats.php');
             const result = await response.json();
 
             if (result.status === 'success') {
                 const data = result.data;
-                
-                // Mise à jour des compteurs sur la page d'accueil
-                const nbTrajetsElem = document.getElementById('nb-trajets');
-                const co2SaveElem = document.getElementById('co2-save');
 
-                if (nbTrajetsElem) nbTrajetsElem.innerText = data.nb_trajets;
-                if (co2SaveElem) co2SaveElem.innerText = data.co2_economise + " kg";
-                
-                // Initialisation du graphique si l'élément existe
-                if (document.getElementById('myChart')) {
-                    initChart(data.labels, data.stats_hebdo);
+                // Mise à jour des textes
+                document.getElementById('nb-trajets').innerText = data.nb_trajets;
+                document.getElementById('co2-save').innerText = data.co2_economise + " kg";
+
+                // Création du graphique
+                const ctx = document.getElementById('myChart');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Trajets', 'CO2 Économisé (kg)'],
+                            datasets: [{
+                                label: 'Statistiques EcoRide',
+                                data: [data.nb_trajets, data.co2_economise],
+                                backgroundColor: ['#4CAF50', '#8BC34A'],
+                                borderRadius: 5
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } }
+                        }
+                    });
                 }
             }
         } catch (error) {
-            console.error("Erreur lors du chargement des statistiques :", error);
+            console.error("Erreur stats:", error);
         }
     };
 
-    // --- 2. MOTEUR DE RECHERCHE (Page Covoiturages) ---
+    // --- 3. RECHERCHE ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
-        searchForm.addEventListener('submit', async (e) => {
+        searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const depart = document.getElementById('depart').value;
-            const arrivee = document.getElementById('arrivee').value;
-            const eco = document.getElementById('eco-filter') ? document.getElementById('eco-filter').checked : false;
-
-            try {
-                // On envoie les paramètres à search_trajets.php
-                const response = await fetch(`../back-end/api/search_trajets.php?depart=${depart}&arrivee=${arrivee}&eco=${eco}`);
-                const data = await response.json();
-
-                if (data.status === 'success') {
-                    displayResults(data.results);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la recherche :", error);
-            }
+            const dep = document.getElementById('depart').value;
+            const arr = document.getElementById('arrivee').value;
+            window.location.href = `covoiturages.html?depart=${dep}&arrivee=${arr}`;
         });
     }
 
-    // --- 3. FONCTION D'AFFICHAGE DES RÉSULTATS ---
-    function displayResults(results) {
-        const container = document.getElementById('results-container');
-        if (!container) return;
-        
-        container.innerHTML = ''; // On vide les anciens résultats
-
-        if (results.length === 0) {
-            container.innerHTML = '<p class="no-result">Aucun trajet trouvé pour cette sélection.</p>';
-            return;
-        }
-
-        results.forEach(trajet => {
-            container.innerHTML += `
-                <div class="trajet-card">
-                    <div class="trajet-info">
-                        <h3>${trajet.lieu_depart} ➔ ${trajet.lieu_arrivee}</h3>
-                        <p><i class="fas fa-user"></i> Chauffeur : ${trajet.prenom}</p>
-                        <p><i class="fas fa-coins"></i> Prix : ${trajet.prix_personne} crédits</p>
-                    </div>
-                    <div class="trajet-eco">
-                        ${trajet.energie === 'electrique' ? '<span class="badge-eco">🌿 Écologique</span>' : ''}
-                    </div>
-                </div>
-            `;
-        });
+    loadStats();
+});
