@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoRide - Modération des Avis</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #2ecc71; }
+        .avis-card { border-left: 5px solid #bdc3c7; padding: 15px; margin-bottom: 15px; background: #fafafa; border-radius: 4px; }
+        .avis-card.valide { border-left-color: #2ecc71; }
+        .avis-card.en-attente { border-left-color: #f1c40f; }
+        .btn { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; color: white; margin-right: 5px; }
+        .btn-valider { background: #2ecc71; }
+        .btn-supprimer { background: #e74c3c; }
+        .status-badge { font-weight: bold; font-size: 0.8em; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Modération des avis</h1>
+    <div id="liste-avis">Chargement des avis...</div>
+</div>
+
+<script>
+    const API_URL = "http://localhost:8080/back-end/api";
+
+    // Fonction pour charger les avis depuis MongoDB
+    async function chargerAvis() {
+        const response = await fetch(`${API_URL}/get_avis.php`);
+        const result = await response.json();
+        const container = document.getElementById('liste-avis');
+        container.innerHTML = "";
+
+        if (result.status === "success") {
+            result.data.forEach(avis => {
+                const card = document.createElement('div');
+                card.className = `avis-card ${avis.statut}`;
+                card.innerHTML = `
+                    <p><strong>${avis.pseudo}</strong> <span class="status-badge">(${avis.statut})</span></p>
+                    <p>"${avis.commentaire}"</p>
+                    <p>Note : ${"⭐".repeat(avis.note)}</p>
+                    ${avis.statut === 'en attente' ? 
+                        `<button class="btn btn-valider" onclick="modifierAvis('${avis.id}', 'valider')">Valider</button>` : ''}
+                    <button class="btn btn-supprimer" onclick="modifierAvis('${avis.id}', 'supprimer')">Supprimer</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+    }
+
+    // Fonction pour valider ou supprimer (appelle manage_avis.php)
+    async function modifierAvis(id, action) {
+        if(confirm(`Voulez-vous vraiment ${action} cet avis ?`)) {
+            const response = await fetch(`${API_URL}/manage_avis.php?id=${id}&action=${action}`);
+            const result = await response.json();
+            if (result.status === "success") {
+                alert("Action réussie !");
+                chargerAvis(); // On rafraîchit la liste
+            }
+        }
+    }
+
+    // Lancement au chargement de la page
+    chargerAvis();
+</script>
+
+</body>
+</html>

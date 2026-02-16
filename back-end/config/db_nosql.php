@@ -1,25 +1,21 @@
 <?php
-// Utilisation de l'extension MongoDB installée via le Dockerfile
-require_once __DIR__ . '/../../vendor/autoload.php'; 
-
+// On n'utilise PLUS le dossier vendor ici pour éviter l'erreur de compatibilité
 try {
-    // Connexion au service "mongodb" défini dans le docker-compose.yml
-    // Le port par défaut est 27017
-    $host = "mongodb";
+    $host = "ecoride_db_nosql";
     $port = "27017";
     $dbname = "ecoride_nosql";
 
-    // Chaîne de connexion MongoDB
-    $client = new MongoDB\Client("mongodb://$host:$port");
+    // Utilisation de la classe native Manager (toujours disponible si l'extension est là)
+    $manager = new MongoDB\Driver\Manager("mongodb://$host:$port");
+    
+    // On stocke le manager dans une variable globale pour l'utiliser ailleurs
+    $db_nosql = [
+        'manager' => $manager,
+        'dbname' => $dbname
+    ];
 
-    // Sélection de la base de données
-    $db_nosql = $client->$dbname;
-
-    // Test de connexion silencieux
-    // Les collections (ex: avis, logs) seront créées automatiquement à l'insertion
 } catch (Exception $e) {
-    // En cas d'erreur, on logue le message pour l'administrateur
-    error_log("Erreur de connexion MongoDB : " . $e->getMessage());
+    error_log("Erreur MongoDB Native : " . $e->getMessage());
     $db_nosql = null;
 }
 ?>

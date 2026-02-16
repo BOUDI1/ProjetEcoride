@@ -1,32 +1,37 @@
--- Création de la base de données
-CREATE DATABASE IF NOT EXISTS ecoride_db;
-USE ecoride_db;
+-- 1. On s'assure que la base "ecoride" existe et on l'utilise
+CREATE DATABASE IF NOT EXISTS ecoride;
+USE ecoride;
 
--- 1. Table des Utilisateurs (US 7, 8, 13)
+-- 2. On nettoie les anciennes tables si elles existent
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS reservations, covoiturages, voitures, utilisateurs;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 3. Table des Utilisateurs
 CREATE TABLE utilisateurs (
     id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     mot_de_passe VARCHAR(255) NOT NULL,
-    credits INT DEFAULT 20, -- Les 20 crédits offerts à l'inscription (US 10)
+    credits INT DEFAULT 20,
     role ENUM('passager', 'chauffeur', 'employe', 'admin') DEFAULT 'passager',
     photo_profil VARCHAR(255)
 );
 
--- 2. Table des Voitures (US 4 - Aspect Écologique)
+-- 4. Table des Voitures
 CREATE TABLE voitures (
     id_voiture INT AUTO_INCREMENT PRIMARY KEY,
     id_utilisateur INT,
     modele VARCHAR(50),
     immatriculation VARCHAR(20),
-    energie ENUM('electrique', 'thermique') NOT NULL, -- Crucial pour le filtre éco
+    energie ENUM('electrique', 'thermique') NOT NULL,
     couleur VARCHAR(30),
     date_premiere_immat DATE,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
 
--- 3. Table des Covoiturages (US 1, 3, 4)
+-- 5. Table des Covoiturages
 CREATE TABLE covoiturages (
     id_covoiturage INT AUTO_INCREMENT PRIMARY KEY,
     id_chauffeur INT,
@@ -40,17 +45,13 @@ CREATE TABLE covoiturages (
     FOREIGN KEY (id_chauffeur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
 
--- 4. Table des Réservations (US 9)
-CREATE TABLE reservations (
-    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    id_covoiturage INT,
-    id_passager INT,
-    nb_places INT DEFAULT 1,
-    statut_reservation ENUM('valide', 'annule') DEFAULT 'valide',
-    FOREIGN KEY (id_covoiturage) REFERENCES covoiturages(id_covoiturage) ON DELETE CASCADE,
-    FOREIGN KEY (id_passager) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
-);
-
--- Insertion d'un jeu d'essai pour tester (Optionnel)
+-- 6. Insertion d'un jeu de test pour vérifier que les stats s'affichent
 INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) 
-VALUES ('Admin', 'Ecoride', 'admin@ecoride.fr', 'hash_password_ici', 'admin');
+VALUES ('Admin', 'Ecoride', 'admin@ecoride.fr', 'admin123', 'admin'),
+       ('Jean', 'Eco', 'jean@ecoride.fr', 'jean123', 'chauffeur');
+
+INSERT INTO voitures (id_utilisateur, modele, immatriculation, energie)
+VALUES (2, 'Tesla Model 3', 'ECO-2024', 'electrique');
+
+INSERT INTO covoiturages (id_chauffeur, date_depart, heure_depart, lieu_depart, lieu_arrivee, places_disponibles, prix_personne)
+VALUES (2, CURDATE(), '08:00:00', 'Paris', 'Lyon', 3, 25.00);
