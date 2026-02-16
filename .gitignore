@@ -1,20 +1,11 @@
-# --- ENVIRONNEMENT ---
-.env
+# Bases de données (données locales)
+db_data/
+mongo_data/
+
+# Fichiers système et logs
 .DS_Store
 Thumbs.db
-
-# --- DOCKER & BDD ---
-# On ignore les dossiers de données créés par Docker pour ne pas alourdir Git
-/mysql_data/
-/mongo_data/
-
-# --- DÉPENDANCES ---
-/vendor/
-/node_modules/
-
-# --- SÉCURITÉ ---
-# Si tu crées des fichiers de logs pour le debug
 *.log
 
-# --- FICHIERS VS CODE ---
-.vscode/
+# Si jamais tu réutilises Composer un jour
+vendor/
