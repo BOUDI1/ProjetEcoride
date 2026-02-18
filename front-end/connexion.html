@@ -4,8 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoRide - Connexion / Inscription</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Styles spécifiques pour centrer le formulaire comme sur ton design précédent */
+        .auth-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            border-top: 5px solid #2ecc71; /* Le vert exact de ton index */
+        }
+
+        .auth-tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-btn.active {
+            color: #2ecc71;
+            border-bottom: 3px solid #2ecc71;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .promo-text {
+            color: #27ae60;
+            font-weight: bold;
+            background: #eafaf1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Utilisation de la classe btn-primary de ton index.html */
+        .btn-auth {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 50px; /* Comme le bouton "Laisser un avis" */
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: #2ecc71;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .btn-auth:hover {
+            background-color: #27ae60;
+            transform: scale(1.02);
+        }
+
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -13,7 +110,7 @@
             <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li> 
                     <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
                     <li><a href="connexion.html" class="active"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
                     <li><a href="contact.html"><i class="fas fa-headset"></i> Contact</a></li>
@@ -22,54 +119,114 @@
         </div>
     </header>
 
-    <main class="container auth-container">
+    <main class="auth-main">
         <section class="auth-box">
             <div class="auth-tabs">
                 <button id="tab-login" class="tab-btn active">Connexion</button>
                 <button id="tab-register" class="tab-btn">Inscription</button>
             </div>
 
-            <form id="login-form" class="auth-form">
-                <h2>Bon retour parmi nous !</h2>
+            <form id="login-form">
                 <div class="input-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required placeholder="votre@email.com">
+                    <label>Email</label>
+                    <input type="email" id="login-email" placeholder="votre@email.com" required>
                 </div>
                 <div class="input-group">
-                    <label for="login-password">Mot de passe</label>
+                    <label>Mot de passe</label>
                     <input type="password" id="login-password" required>
                 </div>
-                <button type="submit" class="btn-primary">Se connecter</button>
+                <button type="submit" class="btn-auth">Se connecter</button>
             </form>
 
-            <form id="register-form" class="auth-form hidden">
-                <h2>Rejoignez l'aventure EcoRide</h2>
+            <form id="register-form" class="hidden">
                 <p class="promo-text">🎁 20 crédits offerts à l'inscription !</p>
                 <div class="input-group">
-                    <label for="reg-nom">Nom</label>
+                    <label>Nom</label>
                     <input type="text" id="reg-nom" required>
                 </div>
                 <div class="input-group">
-                    <label for="reg-prenom">Prénom</label>
+                    <label>Prénom</label>
                     <input type="text" id="reg-prenom" required>
                 </div>
                 <div class="input-group">
-                    <label for="reg-email">Email</label>
+                    <label>Email</label>
                     <input type="email" id="reg-email" required>
                 </div>
                 <div class="input-group">
-                    <label for="reg-password">Mot de passe</label>
+                    <label>Mot de passe</label>
                     <input type="password" id="reg-password" required>
                 </div>
-                <button type="submit" class="btn-secondary">Créer mon compte</button>
+                <div class="input-group">
+                    <label>Votre rôle</label>
+                    <select id="reg-role">
+                        <option value="2">Passager</option>
+                        <option value="3">Chauffeur</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-auth">Créer mon compte</button>
             </form>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 EcoRide. <a href="mentions_legales.html">Mentions Légales</a></p>
+        <div class="container">
+            <p>&copy; 2025 EcoRide. Tous droits réservés.</p>
+        </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script>
+        const tabLogin = document.getElementById('tab-login');
+        const tabRegister = document.getElementById('tab-register');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        tabLogin.onclick = () => {
+            loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');
+            tabLogin.classList.add('active'); tabRegister.classList.remove('active');
+        };
+
+        tabRegister.onclick = () => {
+            registerForm.classList.remove('hidden'); loginForm.classList.add('hidden');
+            tabRegister.classList.add('active'); tabLogin.classList.remove('active');
+        };
+
+        // CONNEXION
+        loginForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-password').value
+            };
+            const resp = await fetch('http://localhost:8080/back-end/api/connexion.php', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+            const res = await resp.json();
+            if(res.status === "success") {
+                localStorage.setItem('user', JSON.stringify(res.user));
+                if(res.user.id_role == 1) window.location.href = "moderation.html";
+                else window.location.href = "index.html";
+            } else { alert(res.message); }
+        };
+
+        // INSCRIPTION
+        registerForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                nom: document.getElementById('reg-nom').value,
+                prenom: document.getElementById('reg-prenom').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value,
+                id_role: document.getElementById('reg-role').value
+            };
+            const resp = await fetch('http://localhost:8080/back-end/api/inscription.php', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+            const res = await resp.json();
+            alert(res.message);
+            if(res.status === "success") tabLogin.click();
+        };
+    </script>
 </body>
 </html>

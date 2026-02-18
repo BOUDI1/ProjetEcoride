@@ -2,69 +2,126 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>EcoRide - Modération des Avis</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h1 { color: #2ecc71; }
-        .avis-card { border-left: 5px solid #bdc3c7; padding: 15px; margin-bottom: 15px; background: #fafafa; border-radius: 4px; }
-        .avis-card.valide { border-left-color: #2ecc71; }
-        .avis-card.en-attente { border-left-color: #f1c40f; }
-        .btn { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; color: white; margin-right: 5px; }
-        .btn-valider { background: #2ecc71; }
-        .btn-supprimer { background: #e74c3c; }
-        .status-badge { font-weight: bold; font-size: 0.8em; text-transform: uppercase; }
-    </style>
+    <title>EcoRide - Modération</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
+        </div>
+    </header>
 
-<div class="container">
-    <h1>Modération des avis</h1>
-    <div id="liste-avis">Chargement des avis...</div>
-</div>
+    <main class="container">
+        <h2>🛡️ Espace Modération</h2>
 
-<script>
-    const API_URL = "http://localhost:8080/back-end/api";
+        <section class="mod-section">
+            <h3>💬 Avis des voyageurs</h3>
+            <div id="container-avis" class="results-grid">
+                <p>Chargement des avis...</p>
+            </div>
+        </section>
 
-    // Fonction pour charger les avis depuis MongoDB
-    async function chargerAvis() {
-        const response = await fetch(`${API_URL}/get_avis.php`);
-        const result = await response.json();
-        const container = document.getElementById('liste-avis');
-        container.innerHTML = "";
+        <hr style="margin: 40px 0;">
 
-        if (result.status === "success") {
-            result.data.forEach(avis => {
-                const card = document.createElement('div');
-                card.className = `avis-card ${avis.statut}`;
-                card.innerHTML = `
-                    <p><strong>${avis.pseudo}</strong> <span class="status-badge">(${avis.statut})</span></p>
-                    <p>"${avis.commentaire}"</p>
-                    <p>Note : ${"⭐".repeat(avis.note)}</p>
-                    ${avis.statut === 'en attente' ? 
-                        `<button class="btn btn-valider" onclick="modifierAvis('${avis.id}', 'valider')">Valider</button>` : ''}
-                    <button class="btn btn-supprimer" onclick="modifierAvis('${avis.id}', 'supprimer')">Supprimer</button>
-                `;
-                container.appendChild(card);
-            });
-        }
-    }
+        <section class="mod-section">
+            <h3>🚗 Trajets en attente de validation</h3>
+            <div id="container-trajets-admin" class="results-grid">
+                <p>Chargement des trajets...</p>
+            </div>
+        </section>
+    </main>
 
-    // Fonction pour valider ou supprimer (appelle manage_avis.php)
-    async function modifierAvis(id, action) {
-        if(confirm(`Voulez-vous vraiment ${action} cet avis ?`)) {
-            const response = await fetch(`${API_URL}/manage_avis.php?id=${id}&action=${action}`);
-            const result = await response.json();
-            if (result.status === "success") {
-                alert("Action réussie !");
-                chargerAvis(); // On rafraîchit la liste
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. CHARGEMENT DES AVIS (Corrigé pour correspondre à ton JSON) ---
+            async function chargerAvis() {
+                const container = document.getElementById('container-avis');
+                try {
+                    const response = await fetch('../back-end/api/get_avis.php');
+                    const result = await response.json();
+                    
+                    // On utilise 'data' au lieu de 'avis' car c'est ce que renvoie ton API
+                    if (result.status === "success" && result.data.length > 0) {
+                        container.innerHTML = result.data.map(a => `
+                            <div class="card-trajet">
+                                <p>"${a.commentaire}"</p>
+                                <small>Par : <strong>${a.pseudo}</strong> - Note: ${a.note}/5</small>
+                                <br>
+                                <button onclick="supprimerAvis('${a.id}')" style="background:#e74c3c; color:white; border:none; padding:8px; margin-top:10px; border-radius:4px; cursor:pointer;">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
+                            </div>
+                        `).join('');
+                    } else {
+                        container.innerHTML = "<p>Aucun avis à modérer.</p>";
+                    }
+                } catch (e) { 
+                    console.error("Erreur Avis:", e);
+                    container.innerHTML = "<p>Erreur lors du chargement des avis.</p>"; 
+                }
             }
-        }
-    }
 
-    // Lancement au chargement de la page
-    chargerAvis();
-</script>
+            // --- 2. SUPPRESSION D'UN AVIS ---
+            window.supprimerAvis = async (id) => {
+                if(!confirm("Supprimer cet avis définitivement ?")) return;
+                try {
+                    const response = await fetch('../back-end/api/manage_avis.php', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ id: id, action: 'delete' })
+                    });
+                    const res = await response.json();
+                    alert(res.message || "Avis supprimé");
+                    chargerAvis(); // Recharger la liste
+                } catch (e) { alert("Erreur lors de la suppression"); }
+            };
 
+            // --- 3. CHARGEMENT DES TRAJETS ---
+            async function chargerTrajets() {
+                const container = document.getElementById('container-trajets-admin');
+                try {
+                    const response = await fetch('../back-end/api/get_trajets_admin.php');
+                    const data = await response.json();
+                    
+                    if (data.status === "success" && data.results && data.results.length > 0) {
+                        container.innerHTML = data.results.map(t => `
+                            <div class="card-trajet" style="border-top: 5px solid #f1c40f;">
+                                <strong>${t.lieu_depart} ➔ ${t.lieu_arrivee}</strong>
+                                <p>Chauffeur : ${t.prenom} | Date : ${t.date_depart}</p>
+                                <div style="display:flex; gap:10px; margin-top:10px;">
+                                    <button onclick="deciderTrajet(${t.id_covoiturage}, 'valider')" class="btn-primary" style="background:#2ecc71; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Valider</button>
+                                    <button onclick="deciderTrajet(${t.id_covoiturage}, 'refuser')" style="background:#e74c3c; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Refuser</button>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        container.innerHTML = "<p>Aucun trajet en attente.</p>";
+                    }
+                } catch (e) { container.innerHTML = "<p>Erreur trajets.</p>"; }
+            }
+
+            // --- 4. ACTION VALIDER/REFUSER TRAJET ---
+            window.deciderTrajet = async (id, action) => {
+                if(!confirm(`Voulez-vous ${action} ce trajet ?`)) return;
+                try {
+                    const resp = await fetch('../back-end/api/valider_trajet.php', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ id_covoiturage: id, action: action })
+                    });
+                    const res = await resp.json();
+                    alert(res.message);
+                    chargerTrajets(); 
+                } catch (e) { alert("Erreur action"); }
+            };
+
+            // Lancement initial
+            chargerAvis();
+            chargerTrajets();
+        });
+    </script>
 </body>
 </html>

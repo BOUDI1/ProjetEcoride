@@ -11,6 +11,11 @@
     --font-family-main: 'Inter', sans-serif;
 }
 
+/* --- CORRECTION 1 : CLASSE POUR LE MENU DYNAMIQUE --- */
+.hidden {
+    display: none !important;
+}
+
 /* Reset de base */
 * {
     box-sizing: border-box;
@@ -76,10 +81,10 @@ a {
 
 /* Navigation Mobile (Masquée par défaut) */
 .nav-list {
-    display: none; 
+    display: none;
     flex-direction: column;
     position: absolute;
-    top: 100%; /* Juste en dessous du header */
+    top: 100%; 
     left: 0;
     width: 100%;
     background-color: var(--color-white);
@@ -89,7 +94,7 @@ a {
 }
 
 .nav-list.is-open {
-    display: flex; /* Affiché via JavaScript */
+    display: flex; 
 }
 
 .nav-list li {
@@ -126,11 +131,10 @@ a {
     margin-bottom: 30px;
 }
 
-/* Centrage de la barre de recherche */
 .search-bar {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto; /* Centre le bloc dans le hero */
+    margin: 0 auto; 
 }
 
 .search-bar form {
@@ -238,7 +242,6 @@ a {
 
 /* --- MEDIA QUERIES (DESKTOP) --- */
 @media (min-width: 768px) {
-    /* Header Desktop */
     .menu-toggle {
         display: none;
     }
@@ -256,12 +259,11 @@ a {
         margin-left: 25px;
     }
 
-    /* Barre de recherche horizontale */
     .search-bar form {
         flex-direction: row;
         background: white;
         padding: 10px;
-        border-radius: 50px; /* Style "pilule" moderne */
+        border-radius: 50px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
@@ -279,21 +281,21 @@ a {
         border-radius: 50px;
     }
 
-    /* Présentation Desktop */
+    /* --- CORRECTION 2 : PLACEMENT PHOTO DESKTOP --- */
     .content-row {
-        display: flex;
+        display: flex;       /* On active le flexbox pour mettre côte à côte */
         gap: 50px;
         align-items: center;
         text-align: left;
     }
 
     .text-mission {
-        flex: 1;
+        flex: 1;            /* Le texte prend 50% */
         margin-bottom: 0;
     }
 
     .image-placeholder {
-        flex: 1;
+        flex: 1;            /* L'image prend 50% */
         margin: 0;
     }
 

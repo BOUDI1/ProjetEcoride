@@ -2,46 +2,41 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../config/db_sql.php';
 
-// Récupération des paramètres de recherche
-$depart  = $_GET['depart'] ?? '';
+// Récupération des paramètres
+$depart = $_GET['depart'] ?? '';
 $arrivee = $_GET['arrivee'] ?? '';
-$date    = $_GET['date'] ?? '';
-$eco     = $_GET['eco'] ?? 'false'; // Filtre voiture électrique
+$date = $_GET['date'] ?? '';
 
 try {
-    // Construction de la requête SQL avec jointure
-    // On lie 'covoiturages' à 'utilisateurs' (chauffeur) et 'voitures'
-    $sql = "SELECT c.*, u.prenom, u.photo_profil, v.modele, v.energie 
-            FROM covoiturages c
-            JOIN utilisateurs u ON c.id_chauffeur = u.id_utilisateur
-            JOIN voitures v ON u.id_utilisateur = v.id_utilisateur
-            WHERE c.lieu_depart LIKE :depart 
-            AND c.lieu_arrivee LIKE :arrivee 
-            AND c.statut = 'en_cours'";
+    // Requête simplifiée : on prend tout ce qui a des places
+    $query = "SELECT c.*, u.prenom 
+              FROM covoiturages c
+              JOIN utilisateurs u ON c.id_chauffeur = u.id_utilisateur
+              WHERE c.places_disponibles > 0";
 
-    // Si le filtre écologique est coché
-    if ($eco === 'true') {
-        $sql .= " AND v.energie = 'electrique'";
+    $params = [];
+
+    if (!empty($depart)) {
+        $query .= " AND c.lieu_depart LIKE ?";
+        $params[] = "%$depart%";
+    }
+    if (!empty($arrivee)) {
+        $query .= " AND c.lieu_arrivee LIKE ?";
+        $params[] = "%$arrivee%";
+    }
+    if (!empty($date)) {
+        $query .= " AND c.date_depart = ?";
+        $params[] = $date;
     }
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'depart'  => "%$depart%",
-        'arrivee' => "%$arrivee%"
-    ]);
+    $query .= " ORDER BY c.date_depart ASC";
 
-    $resultats = $stmt->fetchAll();
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode([
-        "status" => "success",
-        "count"  => count($resultats),
-        "results" => $resultats
-    ]);
+    echo json_encode(["status" => "success", "results" => $results]);
 
-} catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Erreur lors de la recherche : " . $e->getMessage()
-    ]);
+} catch (PDOException $e) {
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
-?>
