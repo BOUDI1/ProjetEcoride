@@ -1,11 +1,28 @@
-# Bases de données (données locales)
+# --- SÉCURITÉ ET CONFIGURATION ---
+# Ne jamais envoyer les mots de passe et accès réels sur Git
+.env
+.env.local
+.env.*.local
+
+# --- BASES DE DONNÉES (Données locales) ---
+# Dossiers contenant les volumes de données MariaDB et MongoDB
 db_data/
 mongo_data/
+*.sql
+*.sqlite
 
-# Fichiers système et logs
+# --- DÉPENDANCES ET LOGICIELS ---
+# Dossiers générés par les gestionnaires de paquets
+vendor/
+node_modules/
+
+# --- FICHIERS SYSTÈME ET LOGS ---
+# Fichiers inutiles générés par Windows, Mac ou les serveurs
 .DS_Store
 Thumbs.db
 *.log
+error_log
 
-# Si jamais tu réutilises Composer un jour
-vendor/
+# --- DOSSIERS TEMPORAIRES ---
+temp/
+tmp/
