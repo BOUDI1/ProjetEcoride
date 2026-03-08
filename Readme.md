@@ -1,71 +1,79 @@
-# 🌿 Projet EcoRide 
+EcoRide est une application web Full Stack conçue pour faciliter le covoiturage tout en minimisant l'impact écologique. Ce projet a été développé pour répondre aux besoins de José, fondateur d'EcoRide, en mettant l'accent sur la transparence (avis), la sécurité et le suivi de l'économie de CO2.
 
-EcoRide est une plateforme web de covoiturage conçue dans le cadre de l'examen du Titre Professionnel de Développeur Web et Web Mobile (DWWM).
+🛠️ Architecture Technique & Stack
+Le projet suit une architecture découplée avec une séparation nette entre le client et le serveur.
 
-L'objectif principal est de **réduire l'impact environnemental des déplacements** en favorisant le covoiturage. Le site se distingue par une charte graphique écologique et un ensemble de fonctionnalités couvrant la recherche de trajets, la gestion des comptes et l'administration des données.
+Front-End : - HTML5 / CSS3 (Design responsive sans framework pour une performance optimale).
 
-## ✨ Fonctionnalités Clés Implémentées
-Le développement intègre les fonctionnalités critiques du cahier des charges :
+JavaScript (ES6+) : Utilisation intensive de l'API Fetch pour les appels asynchrones.
 
-* **US 1 & 2 :** Interface d'accueil et navigation complète (Accueil, Covoiturages, Connexion, Contact).
-* **US 3 & 4 :** Barre de recherche d'itinéraires et filtres de résultats (Prix, Note, **Aspect Écologique**).
-* **US 6 :** Gestion de l'interactivité du menu hamburger (Mobile-First) via JavaScript.
-* **US 13 (Dynamisation) :** Affichage asynchrone des statistiques d'impact écologique via l'**API Fetch** et visualisation graphique par **Chart.js**.
-* **Architecture Multi-BDD :** Utilisation conjointe de **MySQL** (données relationnelles pour les trajets/crédits) et **MongoDB** (données non-relationnelles pour les avis et logs).
+Chart.js : Visualisation des données écologiques.
 
----
+Back-End : - PHP 8.2 : Architecture orientée API pour le traitement des requêtes.
 
-## 🛠 Environnement Technique & Technologies
+Bases de Données :
 
-| Domaine | Technologie / Outil | Justification du Choix |
-| :--- | :--- | :--- |
-| **Serveur Local** | **Docker** | Isolation des services (PHP, MySQL, MongoDB) et portabilité totale (Remplace XAMPP). |
-| **Front-End** | **HTML5 / CSS3 / JS** | Utilisation de Flexbox (Sticky Footer) et de l'API Fetch pour l'asynchronisme. |
-| **Back-End** | **PHP 8.2 (PDO)** | Langage serveur robuste avec requêtes préparées pour la sécurité SQL. |
-| **Base de Données** | **MySQL & MongoDB** | Système hybride SQL et NoSQL selon les exigences de l'énoncé. |
-| **Graphisme** | **Figma** | Réalisation de 12 designs (Wireframes & Mockups) en version Desktop et Mobile. |
-| **Gestion de Projet** | **Trello & Git** | Méthode Agile (Kanban) et stratégie de branches GitHub Flow. |
+MariaDB (SQL) : Gestion relationnelle des trajets, utilisateurs et réservations.
 
----
+MongoDB (NoSQL) : Stockage des logs techniques et audit de performance.
 
-## ⚙️ Installation et Lancement (Docker)
+Infrastructure :
 
-Le projet est entièrement conteneurisé pour garantir un environnement de développement identique à la production :
+Docker : Orchestration complète via docker-compose.
 
-1.  **Cloner le dépôt :**
-    ```bash
-    git clone [https://github.com/BOUDI1/ProjetEcoride.git](https://github.com/BOUDI1/ProjetEcoride.git)
-    cd ProjetEcoride
-    ```
+Serveur : Apache (inclus dans le Dockerfile).
 
-2.  **Lancer les conteneurs :**
-    ```bash
-    docker-compose up -d --build
-    ```
+📂 Structure du Dépôt
+L'analyse du dépôt montre une organisation modulaire :
 
-3.  **Accéder à l'application :**
-    Ouvrez votre navigateur sur [http://localhost:8080](http://localhost:8080).
+Plaintext
+├── back-end/
+│   ├── api/            # Endpoints (connexion, recherche, stats, avis, etc.)
+│   ├── config/         # Fichiers de connexion DB (SQL & NoSQL)
+│   └── database.sql    # Schéma d'initialisation MariaDB
+├── front-end/
+│   ├── main.js         # Moteur de l'application (Fetch API, DOM manipulation)
+│   ├── style.css       # Design System (Variables CSS, Flexbox)
+│   └── *.html          # Les 8 vues de l'application (index, connexion, etc.)
+├── assets/             # Documentation complète (Maquettes Figma, Diagrammes)
+├── images/             # Ressources graphiques
+├── .env                # Variables d'environnement (non versionné en production)
+├── Dockerfile          # Image personnalisée PHP/Apache
+└── docker-compose.yml  # Orchestration des services
+🚀 Installation et Utilisation (Docker)
+Pré-requis
+Docker Desktop installé.
 
----
+Lancement
+Clonez le dépôt :
 
-## 🔒 Sécurité et Audit
-La sécurité est intégrée dès la conception de l'application EcoRide :
+Bash
+git clone https://github.com/BOUDI1/ProjetEcoride.git
+Lancez l'environnement :
 
-* **Sécurité SQL :** Utilisation systématique de **PHP PDO avec requêtes préparées** pour neutraliser les injections SQL.
-* **Protection XSS :** Échappement des données via `htmlspecialchars()` avant affichage dans le DOM.
-* **Audit Actif :** Veille effectuée selon le guide **OWASP Testing Guide** et scans de vulnérabilités via **HostedScan**.
-* **Mots de Passe :** Hachage sécurisé (Argon2id/bcrypt) pour la protection des comptes utilisateurs.
+Bash
+docker-compose up -d --build
+Accédez à l'application : http://localhost:8080
 
----
+🛡️ Focus Sécurité (Veille OWASP)
+Le projet intègre des mesures de sécurité strictes identifiées lors de la phase de veille :
 
-## 🌐 Déploiement et Accès
-L'application est déployée en ligne pour permettre une évaluation en conditions réelles :
+Authentification : Hachage des mots de passe avec BCRYPT (password_hash).
 
-* **Hébergeur :** alwaysdata
-* **URL de Déploiement :** [Ecoridefrance.alwaysdata.net](https://ecoridefrance.alwaysdata.net)
-* **Sécurité Déploiement :** Certificat **SSL/TLS** activé avec forçage du **HTTPS** via le fichier `.htaccess`.
+Injections SQL : Utilisation systématique de requêtes préparées via PDO.
 
----
+Sécurité API : Validation des données entrantes côté PHP et encodage côté JS (encodeURIComponent).
 
-## 👥 Auteur
-**Abdallah EL ASSAAD** - Étudiant Développeur Web et Web Mobile
+Infrastructure : Utilisation d'un fichier .htaccess pour sécuriser les accès et forcer le HTTPS en production.
+
+🌐 Déploiement
+L'application est configurée pour un déploiement hybride :
+
+Développement : Environnement conteneurisé Docker.
+
+Production : Hébergement Alwaysdata (URL : https://ecoridefrance.alwaysdata.net/).
+
+Staging : Stratégie de mise en ligne via le répertoire /v2 pour tests avant production.
+
+👨‍💻 Développeur
+Abdallah EL ASSAAD Projet réalisé dans le cadre du Titre Professionnel Développeur Web et Web Mobile (Studi).
