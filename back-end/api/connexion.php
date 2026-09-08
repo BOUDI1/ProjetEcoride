@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -14,20 +14,25 @@ if (!$data || !isset($data['email']) || !isset($data['password'])) {
 }
 
 try {
-    // On récupère l'utilisateur
-    $stmt = $pdo->prepare("SELECT id_utilisateur, nom, prenom, email, id_role, credits FROM utilisateurs WHERE email = ? AND mot_de_passe = ?");
-    $stmt->execute([$data['email'], $data['password']]);
+    // On récupère l'utilisateur avec son statut de compte
+    $stmt = $pdo->prepare("SELECT id_utilisateur, nom, prenom, pseudo, email, mot_de_passe, id_role, credits, statut_compte FROM utilisateurs WHERE email = ?");
+    $stmt->execute([$data['email']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
+    if ($user && password_verify($data['password'], $user['mot_de_passe'])) {
+        if ($user['statut_compte'] === 'suspendu') {
+            echo json_encode(["status" => "error", "message" => "Votre compte a été suspendu par un administrateur."]);
+            exit;
+        }
         echo json_encode([
             "status" => "success", 
             "user" => [
                 "id" => (int)$user['id_utilisateur'],
                 "nom" => $user['nom'],
                 "prenom" => $user['prenom'],
-                "id_role" => (int)$user['id_role'], // Forçage en nombre entier
-                "credits" => (int)$user['credits']
+                "pseudo" => $user['pseudo'],
+                "id_role" => (int)$user['id_role'],
+                "credits" => (float)$user['credits']
             ]
         ]);
     } else {

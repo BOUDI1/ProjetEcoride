@@ -14,10 +14,14 @@
             <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
             <nav class="nav">
                 <button class="menu-toggle" aria-label="Ouvrir le menu"><i class="fas fa-bars"></i></button>
-                <ul class="nav-list">
+                <ul class="nav-list" id="nav-list">
                     <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
                     <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
-                    <li><a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                    <li id="menu-proposer" class="hidden"><a href="proposer-trajet.html"><i class="fas fa-plus-circle"></i> Proposer un trajet</a></li>
+                    <li id="menu-admin" class="hidden"><a href="admin.html"><i class="fas fa-user-shield"></i> Administration</a></li>
+                    <li id="menu-employe" class="hidden"><a href="employe.html"><i class="fas fa-user-check"></i> Espace Employé</a></li>
+                    <li id="menu-connexion"><a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                    <li id="menu-deconnexion" class="hidden"><a href="#" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     <li><a href="contact.html"><i class="fas fa-headset"></i> Contact</a></li>
                 </ul>
             </nav>

@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db_sql.php';
 
 try {
@@ -9,7 +9,7 @@ try {
             JOIN utilisateurs u ON c.id_chauffeur = u.id_utilisateur 
             WHERE c.statut = 'en_cours' 
             ORDER BY c.date_depart ASC";
-    
+
     $stmt = $pdo->query($sql);
     $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

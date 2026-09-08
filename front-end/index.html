@@ -11,6 +11,33 @@
         /* Force la disparition des éléments avec la classe hidden */
         .hidden { display: none !important; }
     </style>
+    <script>
+        // Synchronisation immédiate de la navbar
+        function syncNavImmediate() {
+            try {
+                const u = JSON.parse(localStorage.getItem('user'));
+                if (u) {
+                    const role = parseInt(u.id_role);
+                    const isEmp = (role === 4);
+                    const isAdmin = (role === 1);
+                    const isDriver = (role === 3);
+                    
+                    const elConn = document.getElementById('menu-connexion');
+                    const elDeco = document.getElementById('menu-deconnexion');
+                    const elEmp = document.getElementById('menu-employe');
+                    const elAdm = document.getElementById('menu-admin');
+                    const elProp = document.getElementById('menu-proposer');
+
+                    if(elConn) elConn.style.display = 'none';
+                    if(elDeco) elDeco.style.display = 'block';
+                    if(elEmp && (isEmp || isAdmin)) elEmp.style.display = 'block';
+                    if(elAdm && isAdmin) elAdm.style.display = 'block';
+                    if(elProp && isDriver) elProp.style.display = 'block';
+                }
+            } catch(e) {}
+        }
+        document.addEventListener('DOMContentLoaded', syncNavImmediate);
+    </script>
 </head>
 <body>
     <header class="header">
@@ -27,8 +54,11 @@
                     <li id="menu-proposer" class="hidden">
                         <a href="proposer-trajet.html"><i class="fas fa-plus-circle"></i> Proposer un trajet</a>
                     </li>
-                    <li id="menu-moderation" class="hidden">
-                        <a href="moderation.html"><i class="fas fa-shield-alt"></i> Modération</a>
+                    <li id="menu-admin" class="hidden">
+                        <a href="admin.html"><i class="fas fa-user-shield"></i> Administration</a>
+                    </li>
+                    <li id="menu-employe" class="hidden">
+                        <a href="employe.html"><i class="fas fa-user-check"></i> Espace Employé</a>
                     </li>
                     
                     <li id="menu-connexion">
@@ -127,7 +157,7 @@
         // On ne garde ici que la logique d'affichage des avis spécifique à l'index
         async function afficherAvisPublics() {
             try {
-                const response = await fetch('http://localhost:8080/back-end/api/get_avis_valides.php');
+                const response = await fetch('../back-end/api/get_avis_valides.php');
                 const result = await response.json();
                 const container = document.getElementById('container-avis-public');
 

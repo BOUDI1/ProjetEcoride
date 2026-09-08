@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Détails du Voyage</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .detail-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin: 40px auto; max-width: 800px; border-top: 5px solid #2ecc71; }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 25px; }
+        .detail-header h2 { margin: 0; color: #2c3e50; font-size: 1.8rem; }
+        .eco-tag { background: #eafaf1; color: #2ecc71; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .info-section h3 { margin-bottom: 15px; border-bottom: 2px solid #eafaf1; padding-bottom: 8px; color: #27ae60; }
+        .info-list { list-style: none; padding: 0; margin: 0; }
+        .info-list li { margin-bottom: 12px; font-size: 1.05rem; color: #555; display: flex; align-items: center; gap: 10px; }
+        .info-list li i { color: #2ecc71; width: 20px; }
+        .driver-avatar { width: 60px; height: 60px; border-radius: 50%; background: #ddd; object-fit: cover; }
+        .driver-card { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 10px; }
+        .reviews-section { margin-top: 30px; }
+        .review-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .review-item:last-child { border: none; }
+        .btn-reserve-big { width: 100%; background: #2ecc71; color: white; padding: 18px; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1.2rem; transition: 0.3s; text-align: center; display: block; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
+        .btn-reserve-big:hover { background: #27ae60; transform: translateY(-2px); }
+        .stars { color: #f1c40f; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
+            <nav class="nav">
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
+                    <li id="menu-proposer" class="hidden"><a href="proposer-trajet.html"><i class="fas fa-plus-circle"></i> Proposer un trajet</a></li>
+                    <li id="menu-admin" class="hidden"><a href="admin.html"><i class="fas fa-user-shield"></i> Administration</a></li>
+                    <li id="menu-employe" class="hidden"><a href="employe.html"><i class="fas fa-user-check"></i> Espace Employé</a></li>
+                    <li id="menu-connexion"><a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                    <li id="menu-deconnexion" class="hidden"><a href="#" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li><a href="contact.html"><i class="fas fa-headset"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="detail-box">
+            <div class="detail-header">
+                <h2 id="route-title">Chargement du trajet...</h2>
+                <div id="eco-badge-container"></div>
+            </div>
+
+            <div class="info-grid">
+                <!-- Détails Trajet -->
+                <div class="info-section">
+                    <h3><i class="fas fa-info-circle"></i> Détails du Trajet</h3>
+                    <ul class="info-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Départ : <strong id="det-depart">-</strong></li>
+                        <li><i class="fas fa-map-marker-check"></i> Arrivée : <strong id="det-arrivee">-</strong></li>
+                        <li><i class="fas fa-calendar-alt"></i> Date de départ : <span id="det-date-dep">-</span></li>
+                        <li><i class="fas fa-clock"></i> Heure de départ : <span id="det-heure-dep">-</span></li>
+                        <li><i class="fas fa-calendar-check"></i> Date d'arrivée estimée : <span id="det-date-arr">-</span></li>
+                        <li><i class="fas fa-clock"></i> Heure d'arrivée estimée : <span id="det-heure-arr">-</span></li>
+                        <li><i class="fas fa-couch"></i> Places restantes : <strong id="det-places">-</strong></li>
+                        <li><i class="fas fa-dollar-sign"></i> Tarif : <strong id="det-prix" style="color:#2ecc71; font-size:1.3rem;">-</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Chauffeur & Véhicule -->
+                <div class="info-section">
+                    <h3><i class="fas fa-user-tie"></i> Chauffeur & Véhicule</h3>
+                    <div class="driver-card">
+                        <img src="../images/default-avatar.png" id="det-driver-avatar" class="driver-avatar" alt="Avatar">
+                        <div>
+                            <strong id="det-driver-name" style="font-size:1.1rem; color:#2c3e50;">-</strong><br>
+                            <span class="stars" id="det-driver-stars">☆☆☆☆☆</span>
+                            <span id="det-driver-rating-text" style="font-size:0.85rem; color:#666;">(0 avis)</span>
+                        </div>
+                    </div>
+
+                    <ul class="info-list" id="vehicle-details" style="display:none;">
+                        <li><i class="fas fa-car"></i> Véhicule : <span id="det-veh-modele">-</span></li>
+                        <li><i class="fas fa-gas-pump"></i> Énergie : <span id="det-veh-energie">-</span></li>
+                        <li><i class="fas fa-palette"></i> Couleur : <span id="det-veh-couleur">-</span></li>
+                        <li><i class="fas fa-smoking-ban"></i> Fumeurs admis : <span id="det-veh-fumeur">-</span></li>
+                        <li><i class="fas fa-paw"></i> Animaux admis : <span id="det-veh-animaux">-</span></li>
+                        <li id="det-veh-pref-custom-li" style="display:none;"><i class="fas fa-comment-dots"></i> Note : <span id="det-veh-pref-custom">-</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bouton Réserver -->
+            <div style="margin: 30px 0;">
+                <button id="btn-reserve" class="btn-reserve-big" style="display:none;">Confirmer ma participation</button>
+                <p id="reserve-info-msg" style="text-align:center; color:#e74c3c; font-weight:600; display:none;"></p>
+            </div>
+
+            <!-- Avis -->
+            <div class="reviews-section">
+                <h3><i class="fas fa-star"></i> Avis des Voyageurs</h3>
+                <div id="reviews-container">
+                    <p class="info-text">Aucun avis pour ce chauffeur pour le moment.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 EcoRide. <a href="mentions_legales.html">Mentions Légales</a></p>
+    </footer>
+
+    <script>
+        let currentUserId = null;
+        let trajetId = null;
+        let prixTrajet = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check session
+            const userStr = localStorage.getItem('user');
+            if(userStr) {
+                const user = JSON.parse(userStr);
+                currentUserId = user.id;
+            } else {
+                // Si pas connecté, masquer l'espace personnel dans le menu
+                const menuEspace = document.getElementById('menu-espace');
+                if (menuEspace) menuEspace.style.display = 'none';
+            }
+
+            // Get Trajet ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            trajetId = urlParams.get('id');
+
+            if(!trajetId) {
+                alert("Identifiant de trajet manquant.");
+                window.location.href = "covoiturages.html";
+                return;
+            }
+
+            loadTrajetDetails();
+        });
+
+        async function loadTrajetDetails() {
+            try {
+                const response = await fetch(`../back-end/api/get_trajet_detail.php?id_covoiturage=${trajetId}`);
+                const res = await response.json();
+
+                if (res.status === "success") {
+                    const t = res.data;
+                    prixTrajet = parseFloat(t.prix_personne);
+
+                    // Header & Badge
+                    document.getElementById('route-title').innerHTML = `${t.lieu_depart} <i class="fas fa-arrow-right"></i> ${t.lieu_arrivee}`;
+                    if(t.est_ecologique) {
+                        document.getElementById('eco-badge-container').innerHTML = `<span class="eco-tag">🌿 VOYAGE ÉCOLOGIQUE</span>`;
+                    }
+
+                    // Trajet
+                    document.getElementById('det-depart').innerText = t.lieu_depart;
+                    document.getElementById('det-arrivee').innerText = t.lieu_arrivee;
+                    document.getElementById('det-date-dep').innerText = t.date_depart;
+                    document.getElementById('det-heure-dep').innerText = t.heure_depart.substring(0,5);
+                    document.getElementById('det-date-arr').innerText = t.date_arrivee || t.date_depart;
+                    document.getElementById('det-heure-arr').innerText = t.heure_arrivee ? t.heure_arrivee.substring(0,5) : '-';
+                    document.getElementById('det-places').innerText = t.places_disponibles;
+                    document.getElementById('det-prix').innerText = prixTrajet.toFixed(2) + " Crédits";
+
+                    // Chauffeur
+                    document.getElementById('det-driver-name').innerText = t.chauffeur.pseudo || "Chauffeur";
+                    document.getElementById('det-driver-avatar').src = t.chauffeur.photo_profil || "../images/default-avatar.png";
+                    
+                    const starsStr = "★".repeat(Math.round(t.chauffeur.note_moyenne)) + "☆".repeat(5 - Math.round(t.chauffeur.note_moyenne));
+                    document.getElementById('det-driver-stars').innerText = starsStr;
+                    document.getElementById('det-driver-rating-text').innerText = `(${t.chauffeur.note_moyenne}/5 - ${t.chauffeur.total_avis} avis)`;
+
+                    // Véhicule (US 5)
+                    if(t.vehicule) {
+                        document.getElementById('vehicle-details').style.display = "block";
+                        document.getElementById('det-veh-modele').innerText = t.vehicule.marque + " " + t.vehicule.modele;
+                        document.getElementById('det-veh-energie').innerText = t.vehicule.energie;
+                        document.getElementById('det-veh-couleur').innerText = t.vehicule.couleur || 'Non renseignée';
+                        document.getElementById('det-veh-fumeur').innerText = t.vehicule.preferences.fumeur ? "Oui" : "Non";
+                        document.getElementById('det-veh-animaux').innerText = t.vehicule.preferences.animaux ? "Oui" : "Non";
+
+                        if (t.vehicule.preferences.custom) {
+                            document.getElementById('det-veh-pref-custom-li').style.display = "flex";
+                            document.getElementById('det-veh-pref-custom').innerText = t.vehicule.preferences.custom;
+                        }
+                    }
+
+                    // Booking lifecycle / status
+                    const btn = document.getElementById('btn-reserve');
+                    const msg = document.getElementById('reserve-info-msg');
+
+                    if(t.places_disponibles <= 0) {
+                        msg.innerText = "❌ Trajet Complet.";
+                        msg.style.display = "block";
+                    } else if(t.statut !== 'valide') {
+                        msg.innerText = "❌ Ce trajet n'est plus actif.";
+                        msg.style.display = "block";
+                    } else if(currentUserId === t.chauffeur.id) {
+                        msg.innerText = "ℹ️ Vous êtes le conducteur de ce trajet.";
+                        msg.style.display = "block";
+                    } else {
+                        btn.style.display = "block";
+                        btn.onclick = reserverTrajet;
+                    }
+
+                    // Reviews List (US 5)
+                    const reviewsContainer = document.getElementById('reviews-container');
+                    if(t.avis && t.avis.length > 0) {
+                        reviewsContainer.innerHTML = t.avis.map(a => `
+                            <div class="review-item">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                    <strong>${a.passager_pseudo}</strong>
+                                    <span class="stars">${"★".repeat(a.note)}${"☆".repeat(5-a.note)}</span>
+                                </div>
+                                <p style="font-style:italic; color:#555; margin:0 0 5px 0;">"${a.commentaire}"</p>
+                                <small style="color:#999;"><i class="far fa-calendar-alt"></i> Publié le : ${a.date_publication}</small>
+                            </div>
+                        `).join('');
+                    } else {
+                        reviewsContainer.innerHTML = `<p class="info-text">Aucun avis validé pour ce chauffeur.</p>`;
+                    }
+
+                } else {
+                    alert("Erreur: " + res.message);
+                    window.location.href = "covoiturages.html";
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        // CONFIRM RESERVATION WITH DOUBLE CONFIRMATION WARNING (US 6)
+        async function reserverTrajet() {
+            if(!currentUserId) {
+                alert("Vous devez vous connecter ou créer un compte pour participer à ce covoiturage.");
+                window.location.href = "connexion.html";
+                return;
+            }
+
+            // Première confirmation
+            if(!confirm(`Voulez-vous réserver une place pour ce trajet ?`)) {
+                return;
+            }
+
+            // Deuxième confirmation (US 6: "double confirmation afin de valider que l'utilisateur souhaite utiliser le nombre de crédit demandé")
+            if(!confirm(`⚠️ ATTENTION :\nCette action débitera immédiatement ${prixTrajet.toFixed(2)} crédits de votre compte.\n\nSouhaitez-vous confirmer le paiement ?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('../back-end/api/reserver.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ id_covoiturage: trajetId, id_utilisateur: currentUserId })
+                });
+
+                const res = await response.json();
+
+                if (res.status === "success") {
+                    alert("✅ Réservation validée !\n" + res.message);
+                    window.location.href = "espace.html"; // Redirect to space to view reservation history
+                } else {
+                    alert("❌ Échec de la réservation :\n" + res.message);
+                }
+            } catch (error) {
+                alert("Erreur technique de communication avec le serveur de réservation.");
+            }
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

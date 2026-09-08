@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db_sql.php';
 
 $data = json_decode(file_get_contents("php://input"), true);

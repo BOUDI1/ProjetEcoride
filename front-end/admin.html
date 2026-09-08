@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Espace Administrateur</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dashboard-container { display: grid; grid-template-columns: 280px 1fr; gap: 30px; margin: 40px auto; min-height: 80vh; }
+        .sidebar { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: fit-content; border-top: 5px solid #e67e22; }
+        .sidebar-menu { list-style: none; padding: 0; margin: 20px 0 0 0; }
+        .sidebar-menu li { padding: 12px 15px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-bottom: 8px; font-weight: 600; color: #555; display: flex; align-items: center; gap: 10px; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background: #fdf2e9; color: #e67e22; font-weight: 700; }
+        
+        .content-panel { background: white; padding: 35px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid #e67e22; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f9f9f9; color: #2c3e50; font-weight: bold; }
+        
+        .form-box { max-width: 500px; margin-top: 20px; background: #f9f9f9; padding: 25px; border-radius: 10px; border: 1px solid #eee; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #2c3e50; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-submit { background: #e67e22; color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-submit:hover { background: #d35400; }
+        
+        .btn-act { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.2s; }
+        .btn-act.success { background: #2ecc71; color: white; }
+        .btn-act.danger { background: #e74c3c; color: white; }
+        
+        .stats-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: #fdfefe; padding: 20px; border-radius: 10px; text-align: center; border-top: 4px solid #e67e22; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .stat-card h3 { margin: 0; color: #777; font-size: 0.9rem; }
+        .stat-card .val { font-size: 2rem; font-weight: bold; color: #2c3e50; margin-top: 8px; }
+        
+        .chart-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .chart-box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        
+        .user-badge { padding: 12px 15px; background: #fdf2e9; border-radius: 10px; margin-bottom: 15px; font-size: 0.95rem; color: #c0392b; font-weight: 600; display: flex; align-items: center; gap: 10px; border-left: 4px solid #e67e22; }
+        .info-box { background: #f8f9fa; border-left: 4px solid #e67e22; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; font-size: 0.95rem; color: #555; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo"><a href="index.html">EcoRide 🌿</a></h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="covoiturages.html"><i class="fas fa-car"></i> Covoiturages</a></li>
+                    <li class="active"><a href="admin.html"><i class="fas fa-user-shield"></i> Administration</a></li>
+                    <li><a href="employe.html"><i class="fas fa-user-check"></i> Espace Modération</a></li>
+                    <li><a href="#" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="user-badge" id="admin-badge">
+                <i class="fas fa-crown fa-lg"></i>
+                <div>
+                    <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8;">Session Direction</div>
+                    <strong id="admin-nom-prenom">Chargement...</strong>
+                </div>
+            </div>
+
+            <h3 style="margin: 20px 0 10px 0; color: #2c3e50; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                Gestion (US 13)
+            </h3>
+            
+            <ul class="sidebar-menu">
+                <li onclick="switchTab('stats')" class="active" id="menu-stats">
+                    <i class="fas fa-chart-line"></i> Statistiques & Rapports
+                </li>
+                <li onclick="switchTab('employes')" id="menu-employes">
+                    <i class="fas fa-user-plus"></i> Créer Compte Employé
+                </li>
+                <li onclick="switchTab('utilisateurs')" id="menu-utilisateurs">
+                    <i class="fas fa-users-cog"></i> Suspendre / Activer Comptes
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <section class="content-panel">
+            
+            <!-- ONGLET 1 : STATISTIQUES FINANCIÈRES & ACTIVITÉ (US 13) -->
+            <div id="tab-stats" class="panel active">
+                <div class="info-box">
+                    <strong><i class="fas fa-chart-pie"></i> Vue Direction (US 13) :</strong> Suivi des performances économiques de la plateforme, commissions de 2 crédits par réservation et activité globale par jour.
+                </div>
+
+                <h2>📈 Rapports Financiers & Activité</h2>
+                <p style="color:#777; margin-bottom:25px;">Statistiques et gains générés par la plateforme.</p>
+                
+                <div class="stats-summary">
+                    <div class="stat-card" style="border-top-color:#e67e22;">
+                        <h3>Total Commissions Plateforme</h3>
+                        <div class="val" id="stats-total-commissions">0.00 Crédits</div>
+                    </div>
+                    <div class="stat-card" style="border-top-color:#2ecc71;">
+                        <h3>Covoiturages Validés</h3>
+                        <div class="val" id="stats-total-covoits">0</div>
+                    </div>
+                    <div class="stat-card" style="border-top-color:#3498db;">
+                        <h3>Inscrits Plateforme</h3>
+                        <div class="val" id="stats-total-users">0</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-box">
+                        <h4 style="margin: 0 0 15px 0; color:#2c3e50;">📊 Covoiturages validés par jour</h4>
+                        <canvas id="chart-covoits"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h4 style="margin: 0 0 15px 0; color:#2c3e50;">💰 Commissions gagnées par jour (Crédits)</h4>
+                        <canvas id="chart-credits"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ONGLET 2 : CRÉATION DE COMPTES EMPLOYÉS (US 13) -->
+            <div id="tab-employes" class="panel">
+                <div class="info-box">
+                    <strong><i class="fas fa-user-plus"></i> Règle de gestion (US 13) :</strong> La création de comptes employés est réservée à l'administrateur. Un employé créé disposera des accès de modération (US 12) pour valider les avis et traiter les litiges.
+                </div>
+
+                <h2>➕ Créer un Compte Employé</h2>
+                <p style="color:#777; margin-bottom:20px;">Renseignez les informations de l'employé à intégrer dans l'équipe.</p>
+                
+                <div class="form-box">
+                    <form id="form-create-employe">
+                        <div class="form-group">
+                            <label>Nom</label>
+                            <input type="text" id="emp-nom" placeholder="ex: Dupont" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Prénom</label>
+                            <input type="text" id="emp-prenom" placeholder="ex: Pierre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Adresse Email professionnelle</label>
+                            <input type="email" id="emp-email" placeholder="pierre.dupont@ecoride.fr" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mot de passe initial</label>
+                            <input type="password" id="emp-password" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Créer le compte employé</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ONGLET 3 : SUSPENDRE / ACTIVER DES COMPTES (US 13) -->
+            <div id="tab-utilisateurs" class="panel">
+                <div class="info-box">
+                    <strong><i class="fas fa-shield-alt"></i> Sécurité & Gestion (US 13) :</strong> L'administrateur est capable de suspendre ou réactiver n'importe quel compte utilisateur (passager, chauffeur) ou compte employé. Les comptes suspendus ne peuvent plus se connecter.
+                </div>
+
+                <h2>🛡️ Suspendre ou Activer un Compte</h2>
+                <p style="color:#777; margin-bottom:20px;">Gestion des accès et statuts des utilisateurs et employés.</p>
+                
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pseudo</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Statut</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-users-body">
+                            <tr>
+                                <td colspan="6" class="info-text">Chargement des comptes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 EcoRide. <a href="mentions_legales.html">Mentions Légales</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentUser = null;
+        let chartCovoits = null;
+        let chartCredits = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                alert("Accès refusé. Veuillez vous connecter.");
+                window.location.href = "connexion.html";
+                return;
+            }
+
+            currentUser = JSON.parse(userStr);
+            const roleId = parseInt(currentUser.id_role);
+
+            // Seul l'Administrateur (1) peut accéder à cet espace
+            if (roleId !== 1) {
+                alert("Accès strictement réservé à l'administrateur.");
+                window.location.href = "employe.html";
+                return;
+            }
+
+            // Affichage du nom
+            document.getElementById('admin-nom-prenom').innerText = `${currentUser.prenom} ${currentUser.nom}`;
+
+            // Bouton de déconnexion
+            document.getElementById('btn-logout').onclick = (e) => {
+                e.preventDefault();
+                if(confirm("Confirmer la déconnexion ?")) {
+                    localStorage.removeItem('user');
+                    window.location.href = "index.html";
+                }
+            };
+
+            // Chargement des données
+            loadPlatformStats();
+            loadUsersList();
+        });
+
+        // Gestion des onglets
+        function switchTab(tabName) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu li').forEach(m => m.classList.remove('active'));
+            
+            const targetPanel = document.getElementById('tab-' + tabName);
+            const targetMenu = document.getElementById('menu-' + tabName);
+            if (targetPanel) targetPanel.classList.add('active');
+            if (targetMenu) targetMenu.classList.add('active');
+        }
+
+        // --- 1. STATS DE LA PLATEFORME (US 13) ---
+        async function loadPlatformStats() {
+            try {
+                const response = await fetch('../back-end/api/get_stats.php');
+                const res = await response.json();
+
+                if (res.status === 'success') {
+                    const d = res.data;
+                    document.getElementById('stats-total-commissions').innerText = parseFloat(d.total_credits_plateforme).toFixed(2) + " Crédits";
+                    document.getElementById('stats-total-covoits').innerText = d.nb_trajets;
+                    document.getElementById('stats-total-users').innerText = d.nb_utilisateurs;
+
+                    // Graphique 1: Covoiturages par jour (US 13)
+                    const labelsCovoits = d.covoiturages_par_jour.map(item => item.date_depart);
+                    const dataCovoits = d.covoiturages_par_jour.map(item => parseInt(item.count));
+
+                    if (chartCovoits) chartCovoits.destroy();
+                    const ctxCovoits = document.getElementById('chart-covoits').getContext('2d');
+                    chartCovoits = new Chart(ctxCovoits, {
+                        type: 'line',
+                        data: {
+                            labels: labelsCovoits.length > 0 ? labelsCovoits : ['Aucune donnée'],
+                            datasets: [{
+                                label: 'Nombre de covoiturages',
+                                data: dataCovoits.length > 0 ? dataCovoits : [0],
+                                borderColor: '#2ecc71',
+                                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            }]
+                        },
+                        options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    });
+
+                    // Graphique 2: Gain commissions par jour (US 13)
+                    const labelsCredits = d.credits_par_jour.map(item => item.date_jour);
+                    const dataCredits = d.credits_par_jour.map(item => parseFloat(item.credits));
+
+                    if (chartCredits) chartCredits.destroy();
+                    const ctxCredits = document.getElementById('chart-credits').getContext('2d');
+                    chartCredits = new Chart(ctxCredits, {
+                        type: 'bar',
+                        data: {
+                            labels: labelsCredits.length > 0 ? labelsCredits : ['Aucune donnée'],
+                            datasets: [{
+                                label: 'Gains plateforme (Crédits)',
+                                data: dataCredits.length > 0 ? dataCredits : [0],
+                                backgroundColor: '#e67e22',
+                                borderRadius: 5
+                            }]
+                        },
+                        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                    });
+                }
+            } catch(e) {
+                console.error("Erreur chargement statistiques admin :", e);
+            }
+        }
+
+        // --- 2. CRÉATION D'EMPLOYÉS (US 13) ---
+        document.getElementById('form-create-employe').onsubmit = async (e) => {
+            e.preventDefault();
+
+            const data = {
+                nom: document.getElementById('emp-nom').value,
+                prenom: document.getElementById('emp-prenom').value,
+                email: document.getElementById('emp-email').value,
+                password: document.getElementById('emp-password').value
+            };
+
+            try {
+                const response = await fetch('../back-end/api/create_employe.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const res = await response.json();
+                alert(res.message);
+                if (response.ok) {
+                    document.getElementById('form-create-employe').reset();
+                    loadUsersList();
+                }
+            } catch(e) {
+                alert("Erreur technique lors de la création du compte employé.");
+            }
+        };
+
+        // --- 3. SUSPENDRE / ACTIVER COMPTES (US 13) ---
+        async function loadUsersList() {
+            const tbody = document.getElementById('table-users-body');
+            try {
+                const response = await fetch('../back-end/api/get_users.php');
+                const res = await response.json();
+
+                if (res.status === "success" && res.users && res.users.length > 0) {
+                    // Masquer l'administrateur connecté de sa propre liste d'actions
+                    const usersList = res.users.filter(u => u.id !== currentUser.id);
+
+                    tbody.innerHTML = usersList.map(u => `
+                        <tr>
+                            <td><strong>${u.pseudo}</strong></td>
+                            <td>${u.prenom} ${u.nom}</td>
+                            <td>${u.email}</td>
+                            <td><span style="background:#eef2f7; padding:3px 8px; border-radius:12px; font-size:0.85rem; font-weight:600;">${u.role}</span></td>
+                            <td>
+                                <span style="color:${u.is_suspended ? '#e74c3c' : '#2ecc71'}; font-weight:bold;">
+                                    ${u.is_suspended ? 'Suspendu' : 'Actif'}
+                                </span>
+                            </td>
+                            <td>
+                                <button onclick="toggleSuspension(${u.id}, ${u.is_suspended ? "'activer'" : "'suspendre'"})" 
+                                        class="btn-act ${u.is_suspended ? 'success' : 'danger'}">
+                                    ${u.is_suspended ? 'Réactiver' : 'Suspendre'}
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = "<tr><td colspan='6' class='info-text'>Aucun compte enregistré.</td></tr>";
+                }
+            } catch (e) {
+                tbody.innerHTML = "<tr><td colspan='6' class='info-text'>Erreur lors du chargement des comptes.</td></tr>";
+            }
+        }
+
+        async function toggleSuspension(userId, action) {
+            const verbe = (action === 'suspendre') ? 'suspendre' : 'réactiver';
+            if (!confirm(`Confirmer l'action : ${verbe} ce compte ?`)) return;
+
+            try {
+                const response = await fetch('../back-end/api/suspend_user.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ id_utilisateur: userId, action: action, admin_id: currentUser.id })
+                });
+                const res = await response.json();
+                alert(res.message);
+                loadUsersList();
+            } catch(e) {
+                alert("Erreur technique lors de la mise à jour du statut.");
+            }
+        }
+    </script>
+</body>
+</html>

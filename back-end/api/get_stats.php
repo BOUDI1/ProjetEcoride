@@ -1,42 +1,68 @@
 <?php
-// On indique au navigateur que l'on renvoie du JSON
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-// Inclusion de la connexion à la base de données
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 require_once __DIR__ . '/../config/db_sql.php';
 
 try {
-    // 1. Récupération du nombre total de trajets (US 13)
-    $stmtTrajets = $pdo->query("SELECT COUNT(*) as total FROM covoiturages");
-    $totalTrajets = $stmtTrajets->fetch()['total'];
+    // 1. Nombre total de trajets validés
+    $stmtTrajets = $pdo->query("SELECT COUNT(*) as total FROM covoiturages WHERE statut IN ('valide', 'termine')");
+    $totalTrajets = (int)$stmtTrajets->fetch()['total'];
 
-    // 2. Récupération du nombre d'utilisateurs inscrits
+    // 2. Nombre total d'utilisateurs
     $stmtUsers = $pdo->query("SELECT COUNT(*) as total FROM utilisateurs");
-    $totalUsers = $stmtUsers->fetch()['total'];
+    $totalUsers = (int)$stmtUsers->fetch()['total'];
 
-    // 3. Calcul fictif de l'économie de CO2 (Logique métier Ecoride)
-    // On estime par exemple 2kg de CO2 économisés par trajet
-    $co2Economise = $totalTrajets * 2.5;
+    // 3. Économie de CO2 estimée (ex: 2.5 kg par trajet validé)
+    $co2Economise = round($totalTrajets * 2.5, 1);
 
-    // 4. Préparation de la réponse
-    $response = [
+    // 4. Crédits gagnés par la plateforme (2 crédits par réservation finalisée) (US 13)
+    $stmtCredits = $pdo->query("SELECT COUNT(*) * 2 as total FROM reservations WHERE statut = 'termine'");
+    $totalCreditsPlateforme = (float)$stmtCredits->fetch()['total'];
+
+    // 5. Covoiturages par jour (US 13)
+    $stmtCovoitJours = $pdo->query("
+        SELECT date_depart, COUNT(*) as count 
+        FROM covoiturages 
+        WHERE statut IN ('valide', 'termine')
+        GROUP BY date_depart 
+        ORDER BY date_depart ASC 
+        LIMIT 10
+    ");
+    $covoitJours = $stmtCovoitJours->fetchAll(PDO::FETCH_ASSOC);
+
+    // 6. Gain en crédits par jour (US 13)
+    $stmtCreditsJours = $pdo->query("
+        SELECT DATE(created_at) as date_jour, COUNT(*) * 2 as credits 
+        FROM reservations 
+        WHERE statut = 'termine'
+        GROUP BY DATE(created_at) 
+        ORDER BY date_jour ASC 
+        LIMIT 10
+    ");
+    $creditsJours = $stmtCreditsJours->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode([
         "status" => "success",
         "data" => [
-            "nb_trajets" => (int)$totalTrajets,
-            "nb_utilisateurs" => (int)$totalUsers,
-            "co2_economise" => (float)$co2Economise,
-            "labels" => ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"], // Pour ton graphique
-            "stats_hebdo" => [5, 12, 8, 15, $totalTrajets] // Données dynamiques mixées
+            "nb_trajets" => $totalTrajets,
+            "nb_utilisateurs" => $totalUsers,
+            "co2_economise" => $co2Economise,
+            "total_credits_plateforme" => $totalCreditsPlateforme,
+            "covoiturages_par_jour" => $covoitJours,
+            "credits_par_jour" => $creditsJours
         ]
-    ];
-
-    echo json_encode($response);
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
-    // En cas d'erreur, on renvoie un message propre au JavaScript
-    echo json_encode([
-        "status" => "error",
-        "message" => "Impossible de récupérer les statistiques : " . $e->getMessage()
-    ]);
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
 ?>

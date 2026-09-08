@@ -31,6 +31,9 @@ services:
     container_name: ecoride_db_nosql
     image: mongo:latest
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
     ports:
       - "27018:27017" # On utilise 27018 à l'extérieur pour éviter les conflits
     volumes:
