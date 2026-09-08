@@ -1,79 +1,98 @@
-EcoRide est une application web Full Stack conçue pour faciliter le covoiturage tout en minimisant l'impact écologique. Ce projet a été développé pour répondre aux besoins de José, fondateur d'EcoRide, en mettant l'accent sur la transparence (avis), la sécurité et le suivi de l'économie de CO2.
+EcoRide — Plateforme de covoiturage écologique
+Dépôt GitHub officiel : https://github.com/BOUDI1/ProjetEcoride
 
-🛠️ Architecture Technique & Stack
-Le projet suit une architecture découplée avec une séparation nette entre le client et le serveur.
+EcoRide est une application web Full Stack conçue pour faciliter le covoiturage tout en minimisant l'impact écologique. Ce projet a été développé pour répondre aux besoins de José, fondateur d'EcoRide, en mettant l'accent sur la transparence (avis modérés), la sécurité des transactions et le suivi de l'économie de CO₂.
 
-Front-End : - HTML5 / CSS3 (Design responsive sans framework pour une performance optimale).
+🛠️ Architecture technique et stack
+Le projet adopte une architecture découplée avec une séparation nette entre le client et le serveur (API REST).
 
-JavaScript (ES6+) : Utilisation intensive de l'API Fetch pour les appels asynchrones.
+Front-End :
 
-Chart.js : Visualisation des données écologiques.
+HTML5 / CSS3 : conception responsive sans framework lourd pour une performance optimale et un temps de chargement réduit.
 
-Back-End : - PHP 8.2 : Architecture orientée API pour le traitement des requêtes.
+JavaScript (ES6+) : utilisation intensive de l'API Fetch pour les communications asynchrones.
 
-Bases de Données :
+Chart.js : visualisation dynamique des statistiques et des bilans d'émissions de CO₂ évitées.
 
-MariaDB (SQL) : Gestion relationnelle des trajets, utilisateurs et réservations.
+Back-End :
 
-MongoDB (NoSQL) : Stockage des logs techniques et audit de performance.
+PHP 8.2 : architecture orientée API pour le traitement métier et le contrôle d'accès.
 
-Infrastructure :
+PDO (PHP Data Objects) : requêtes préparées systématiques et pilotage des transactions ACID avec verrous pessimistes (FOR UPDATE).
 
-Docker : Orchestration complète via docker-compose.
+Bases de données (persistance hybride) :
 
-Serveur : Apache (inclus dans le Dockerfile).
+MariaDB (SQL) : gestion relationnelle et intégrité référentielle des utilisateurs, véhicules, trajets et réservations.
 
-📂 Structure du Dépôt
-L'analyse du dépôt montre une organisation modulaire :
+MongoDB (NoSQL) : stockage orienté documents pour les journaux d'audit technique, l'historique des actions et le suivi des incidents.
 
+Tests et qualité d'API :
+
+Postman : suite de tests d'intégration pour valider chaque point d'accès de manière autonome, simuler les cas limites (sur-réservation, insolvabilité, auto-réservation) et contrôler les codes de statut HTTP (200, 400, 402, 409).
+
+Infrastructure et déploiement :
+
+Docker et Docker Compose : conteneurisation complète de l'environnement de développement (Apache, PHP 8.2, MariaDB, MongoDB).
+
+Production : hébergement sur Alwaysdata avec déploiement continu via pipeline GitHub Actions.
+
+📂 Structure du dépôt
 Plaintext
 ├── back-end/
-│   ├── api/            # Endpoints (connexion, recherche, stats, avis, etc.)
-│   ├── config/         # Fichiers de connexion DB (SQL & NoSQL)
-│   └── database.sql    # Schéma d'initialisation MariaDB
+│   ├── api/             # Points d'accès REST (connexion, recherche, reserver, avis, etc.)
+│   ├── config/          # Connexions aux bases de données (db_sql.php, db_nosql.php)
+│   └── database.sql     # Schéma relationnel et données initiales MariaDB
 ├── front-end/
-│   ├── main.js         # Moteur de l'application (Fetch API, DOM manipulation)
-│   ├── style.css       # Design System (Variables CSS, Flexbox)
-│   └── *.html          # Les 8 vues de l'application (index, connexion, etc.)
-├── assets/             # Documentation complète (Maquettes Figma, Diagrammes)
-├── images/             # Ressources graphiques
-├── .env                # Variables d'environnement (non versionné en production)
-├── Dockerfile          # Image personnalisée PHP/Apache
-└── docker-compose.yml  # Orchestration des services
-🚀 Installation et Utilisation (Docker)
-Pré-requis
-Docker Desktop installé.
+│   ├── main.js          # Moteur applicatif client (Fetch, manipulation du DOM)
+│   ├── style.css        # Système de design (variables CSS, Flexbox, Grid)
+│   └── *.html           # Vues de l'application (index, connexion, espace, etc.)
+├── assets/              # Livrables de conception (maquettes Figma, diagrammes UML)
+├── images/              # Ressources graphiques
+├── .env.example         # Gabarit des variables d'environnement (le fichier .env réel est ignoré)
+├── .gitignore           # Exclusion des secrets et des volumes de données locaux
+├── Dockerfile           # Image conteneurisée personnalisée PHP 8.2 / Apache
+└── docker-compose.yml   # Orchestration multi-conteneurs des services
+🚀 Installation et démarrage local (Docker)
+Prérequis : Docker Desktop installé et actif, Git.
 
-Lancement
-Clonez le dépôt :
+Cloner le dépôt officiel :
 
 Bash
 git clone https://github.com/BOUDI1/ProjetEcoride.git
-Lancez l'environnement :
+cd ProjetEcoride
+Créer le fichier de configuration locale à partir du modèle :
+
+Bash
+cp .env.example .env
+Construire et démarrer les conteneurs :
 
 Bash
 docker-compose up -d --build
-Accédez à l'application : http://localhost:8080
+Accéder à l'application : http://localhost:8080
 
-🛡️ Focus Sécurité (Veille OWASP)
-Le projet intègre des mesures de sécurité strictes identifiées lors de la phase de veille :
+🛡️ Sécurité et conformité OWASP
+Le projet intègre un ensemble de contre-mesures techniques alignées sur le standard OWASP Top 10 :
 
-Authentification : Hachage des mots de passe avec BCRYPT (password_hash).
+A01:2021 — Contrôle d'accès défaillant : vérification systématique des rôles (visiteur, passager, chauffeur, employé, administrateur) et des sessions côté serveur avant l'exécution de toute action sensible.
 
-Injections SQL : Utilisation systématique de requêtes préparées via PDO.
+A02:2021 — Défaillances cryptographiques : hachage des mots de passe utilisateurs à l'aide de l'algorithme BCRYPT (password_hash / password_verify).
 
-Sécurité API : Validation des données entrantes côté PHP et encodage côté JS (encodeURIComponent).
+A03:2021 — Injection : neutralisation intégrale des injections SQL grâce à l'usage exclusif de requêtes préparées paramétrées via PDO.
 
-Infrastructure : Utilisation d'un fichier .htaccess pour sécuriser les accès et forcer le HTTPS en production.
+A04:2021 — Conception non sécurisée : gestion atomique des réservations sous transactions SQL strictes (beginTransaction, commit, rollBack) pour empêcher toute incohérence de solde ou dépassement de capacité.
 
-🌐 Déploiement
-L'application est configurée pour un déploiement hybride :
+Validation et recette via Postman : test unitaire des flux HTTP par envoi direct de charges utiles JSON malformées, garantissant la résilience du back-end indépendamment de l'interface graphique.
 
-Développement : Environnement conteneurisé Docker.
+Protection de l'infrastructure : chiffrement forcé via HTTPS, configuration des en-têtes de sécurité dans .htaccess et exclusion stricte des secrets d'authentification (.env non versionné).
 
-Production : Hébergement Alwaysdata (URL : https://ecoridefrance.alwaysdata.net/).
+🌐 Environnements
+Dépôt Git : https://github.com/BOUDI1/ProjetEcoride
 
-Staging : Stratégie de mise en ligne via le répertoire /v2 pour tests avant production.
+Développement local : conteneurs Docker (http://localhost:8080)
 
-👨‍💻 Développeur
-Abdallah EL ASSAAD Projet réalisé dans le cadre du Titre Professionnel Développeur Web et Web Mobile (Studi).
+Production hébergée : https://ecoridefrance.alwaysdata.net/
+
+👨‍💻 Auteur
+Abdallah EL ASSAAD
+
+Projet présenté pour le Titre Professionnel Développeur Web et Web Mobile (DWWM).
