@@ -1,5 +1,9 @@
+# --- SÉCURITÉ ET SECRETS ---
+.env
+.env.*
+!.env.example
+
 # --- BASES DE DONNÉES (Données locales) ---
-# Dossiers contenant les volumes de données MariaDB et MongoDB
 db_data/
 mongo_data/
 *.sqlite
@@ -8,3 +12,15 @@ mongo_data/
 *.dump.sql
 *.bak.sql
 !back-end/database.sql
+
+# --- DÉPENDANCES ET LOGICIELS ---
+vendor/
+node_modules/
+
+# --- FICHIERS SYSTÈME ET LOGS ---
+.DS_Store
+Thumbs.db
+*.log
+error_log
+temp/
+tmp/
